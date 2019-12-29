@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int checking_login(char*, char*, FILE*)
+
 int main()
 {
     char begin = 0, account = 0;
@@ -13,6 +15,56 @@ int main()
         printf("Admin [A] or Guest [G]: \n");
         scanf(" %c", &account);
         //printf("%c", account);
+        
+        if(account == 'A')
+        {
+            int attempts = 3, p = 0;
+            //attempts is used to limit number of attempts
+            //p is used as a flag for (in)correct login data, 0 for incorrect
+            FILE *facc = fopen("Accounts.txt", "r");
+            //this is the file where the login data is stored
+            char usern[10], pass[10];
+            //string for collecting username and password
+            
+            do
+            {
+                printf("Username: ");
+                scanf(" %s", usern);
+                printf("Password: ");
+                scanf(" %s", pass);
+                p = checking_login(usern, pass, facc);
+                
+                if(!p) printf("\nIncorrect username of password.\n");
+                
+                else 
+                {   printf("Loging in...\n\n");
+                    printf("Welcome %s", username);
+                }
+                
+            }
+            while(!p && --attempts >= 0);
+            
+            if(p)
+            {
+                char admin_choice = 0;
+                //for registering admin's choice
+                
+                printf("What would you like to do?");
+                printf("\tAdd event [A]\n");
+                printf("\tChange event details [C]\n");
+                printf("\tDelete event [D]\n");
+                printf("\tView events [V]\n");
+                printf("\tSort events [S]\n");
+                printf("\tDelete event category [E]\n");
+                printf("\tAdd event category [T]\n");
+                printf("\tBack [B]\n");
+                
+                scanf(" %c", &admin_choice)
+            }
+        }
+        
+        
+        
     }
     while(begin);
 
