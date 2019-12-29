@@ -46,7 +46,20 @@ int main()
             
             if(p)
             {
-                //admin menu
+                char admin_choice = 0;
+                //for registering admin's choice
+                
+                printf("What would you like to do?");
+                printf("\tAdd event [A]\n");
+                printf("\tChange event details [C]\n");
+                printf("\tDelete event [D]\n");
+                printf("\tView events [V]\n");
+                printf("\tSort events [S]\n");
+                printf("\tDelete event category [E]\n");
+                printf("\tAdd event category [T]\n");
+                printf("\tBack [B]\n");
+                
+                scanf(" %c", &admin_choice)
             }
         }
         
