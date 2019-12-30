@@ -1,0 +1,13 @@
+int checking_login(char username[], char password[], FILE *fp)
+{
+    char temp_username[20],  temp_password[20];
+
+        while (fscanf(fp, "%s %s",temp_username, temp_password )!=EOF)
+        {
+
+            if(strcmp(username,temp_username)==0 && strcmp(password, temp_password)==0)
+                return 1;
+        }
+    return 0;
+
+}
