@@ -15,7 +15,7 @@ int checking_login(char username[], char password[], FILE *fp)
     return 0;
 
 }
-void delete_event()
+void delete_event(int*)
 {
     FILE *fp1, *fp2;
     char name[20], temp[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
@@ -50,7 +50,7 @@ void delete_event()
 
 }
 
-void view_events()
+void view_events(int*)
 {
     FILE *fp;
     char name[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
@@ -58,6 +58,37 @@ void view_events()
     while(fscanf(fp, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
     printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
 }
+
+int admin_login()
+{
+    FILE *facc = fopen("Accounts.txt", "r");
+    //this is the file where the login data is stored
+    char usern[30], pass[30];
+    //string for collecting username and password
+    int a = 0;
+
+            do
+            {
+                printf("Username: ");
+                scanf(" %s", usern);
+                printf("Password: ");
+                scanf(" %s", pass);
+                a = checking_login(usern, pass, facc);
+
+                if(!p) printf("\nIncorrect username of password.\n");
+
+                else
+                {   printf("Loging in...\n\n");
+                    printf("Welcome %s", usern);//username
+                }
+
+            }
+            while(!a && --attempts >= 0);
+    
+    return a;
+}
+
+
 int main()
 {
     char begin = 0, account = 0;
@@ -76,33 +107,18 @@ int main()
             int attempts = 3, p = 0;
             //attempts is used to limit number of attempts
             //p is used as a flag for (in)correct login data, 0 for incorrect
-            FILE *facc = fopen("Accounts.txt", "r");
-            //this is the file where the login data is stored
-            char usern[30], pass[30];
-            //string for collecting username and password
-
-            do
-            {
-                printf("Username: ");
-                scanf(" %s", usern);
-                printf("Password: ");
-                scanf(" %s", pass);
-                p = checking_login(usern, pass, facc);
-
-                if(!p) printf("\nIncorrect username of password.\n");
-
-                else
-                {   printf("Loging in...\n\n");
-                    printf("Welcome %s", usern);//username
-                }
-
-            }
-            while(!p && --attempts >= 0);
+            
+            p = admin_login
 
             if(p)
             {
                 char admin_choice = 0;
                 //for registering admin's choice
+                int admin_menu = 0;
+                //for facilitating the return to the admin menu in combo with do while loop
+                
+                do
+                {
 
                 printf("What would you like to do?");
                 printf("\tAdd event [A]\n");
@@ -116,16 +132,19 @@ int main()
 
                 scanf(" %c", &admin_choice);// ;
                 if(admin_choice=='D')
-                    delete_event();
-                    if(admin_choice=='V')
-                        view_events();
+                    delete_event(&admin_menu);
+                if(admin_choice=='V')
+                    view_events(&admin_menu);
+                    
+                }
+                while(admin_menu);
             }
         }
 
 
 
     }
-    while(begin);
+    while(begin); //we should scrap this
 
     return 0;
 }
