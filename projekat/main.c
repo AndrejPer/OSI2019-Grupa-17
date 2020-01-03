@@ -136,11 +136,11 @@ int main()
 
                 else if(admin_choice == 'D')
                     delete_event(&admin_menu);
-                if(admin_choice=='V')
+                else if(admin_choice == 'V')
                     view_events(&admin_menu);
 
                 }
-                while(admin_menu);
+                while(admin_menu != 0);
             }
         }
 
