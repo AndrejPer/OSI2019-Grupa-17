@@ -15,7 +15,7 @@ int checking_login(char username[], char password[], FILE *fp)
     return 0;
 
 }
-void delete_event(int*)
+void delete_event(int* admin_menu)
 {
     FILE *fp1, *fp2;
     char name[20], temp[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
@@ -50,7 +50,7 @@ void delete_event(int*)
 
 }
 
-void view_events(int*)
+void view_events(int* admin_menu)
 {
     FILE *fp;
     char name[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
@@ -84,7 +84,7 @@ int admin_login()
 
             }
             while(!a && --attempts >= 0);
-    
+
     return a;
 }
 
@@ -107,8 +107,8 @@ int main()
             int attempts = 3, p = 0;
             //attempts is used to limit number of attempts
             //p is used as a flag for (in)correct login data, 0 for incorrect
-            
-            p = admin_login
+
+            p = admin_login();
 
             if(p)
             {
@@ -116,7 +116,7 @@ int main()
                 //for registering admin's choice
                 int admin_menu = 0;
                 //for facilitating the return to the admin menu in combo with do while loop
-                
+
                 do
                 {
 
@@ -135,7 +135,7 @@ int main()
                     delete_event(&admin_menu);
                 if(admin_choice=='V')
                     view_events(&admin_menu);
-                    
+
                 }
                 while(admin_menu);
             }
