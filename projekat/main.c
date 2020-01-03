@@ -20,7 +20,7 @@ void delete_event(int* admin_menu)
     FILE *fp1, *fp2;
     char name[20], temp[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
 
-    if(fp1=fopen("Events.txt", "r"))
+    if((fp1 = fopen("Events.txt", "r")))
     {
         while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
             printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
@@ -65,7 +65,7 @@ int admin_login()
     //this is the file where the login data is stored
     char usern[30], pass[30];
     //string for collecting username and password
-    int a = 0;
+    int a = 0, attempts = 3;
 
             do
             {
@@ -75,7 +75,7 @@ int admin_login()
                 scanf(" %s", pass);
                 a = checking_login(usern, pass, facc);
 
-                if(!p) printf("\nIncorrect username of password.\n");
+                if(!a) printf("\nIncorrect username of password.\n");
 
                 else
                 {   printf("Loging in...\n\n");
@@ -104,7 +104,7 @@ int main()
 
         if(account == 'A')
         {
-            int attempts = 3, p = 0;
+            int p = 0;
             //attempts is used to limit number of attempts
             //p is used as a flag for (in)correct login data, 0 for incorrect
 
@@ -159,7 +159,8 @@ int main()
         printf("\tView past events [B]\n");
         printf("\tView future event [C]\n");
         printf("\tView events by category [D]\n");
-        printf("\tBack [E]\n");
+        printf("\tPlay the quiz [E]\n");
+        printf("\tBack [F]\n");
 
         scanf(" %c", &guest_choice);
 
@@ -172,12 +173,14 @@ int main()
         else if(guest_choice == 'D')
 
         else if(guest_choice != 'E')
+
+        else if(guest_choice != 'F')
         {
             printf("Unknown option!");
         }
 
         }
-        while(guest_choice != 'E')
+        while(guest_choice != 'F');
 
 
 
