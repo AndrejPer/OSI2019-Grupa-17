@@ -131,7 +131,10 @@ int main()
                 printf("\tBack [B]\n");
 
                 scanf(" %c", &admin_choice);
-                if(admin_choice=='D')
+
+                if (admin_choice == 'A')
+
+                else if(admin_choice == 'D')
                     delete_event(&admin_menu);
                 if(admin_choice=='V')
                     view_events(&admin_menu);
