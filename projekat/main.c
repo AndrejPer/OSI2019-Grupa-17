@@ -139,14 +139,47 @@ int main()
                 else if(admin_choice == 'V')
                     view_events(&admin_menu);
 
+                else if(admin_choice != 'B') printf("Unknown option!");
+
                 }
-                while(admin_menu != 0);
+                while(admin_menu != 'B');
             }
         }
 
 
     else if (account == 'G')
     {
+        char guest_choice;
+        //for registering guest's choice
+
+        do
+        {
+        printf("What would you like to do?");
+        printf("\tView today's events [A]\n");
+        printf("\tView past events [B]\n");
+        printf("\tView future event [C]\n");
+        printf("\tView events by category [D]\n");
+        printf("\tBack [E]\n");
+
+        scanf(" %c", &guest_choice);
+
+        if(guest_choice == 'A')
+
+        else if(guest_choice == 'B')
+
+        else if(guest_choice == 'C')
+
+        else if(guest_choice == 'D')
+
+        else if(guest_choice != 'E')
+        {
+            printf("Unknown option!");
+        }
+
+        }
+        while(guest_choice != 'E')
+
+
 
     }
 
