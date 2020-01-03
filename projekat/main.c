@@ -130,7 +130,7 @@ int main()
                 printf("\tAdd event category [T]\n");
                 printf("\tBack [B]\n");
 
-                scanf(" %c", &admin_choice);// ;
+                scanf(" %c", &admin_choice);
                 if(admin_choice=='D')
                     delete_event(&admin_menu);
                 if(admin_choice=='V')
