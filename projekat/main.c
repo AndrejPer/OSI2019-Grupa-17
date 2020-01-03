@@ -145,6 +145,11 @@ int main()
         }
 
 
+    else if (account == 'G')
+    {
+
+    }
+
 
     }
     while(begin); //we should scrap this
