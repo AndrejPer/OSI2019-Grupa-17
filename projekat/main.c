@@ -12,6 +12,162 @@ typedef struct event
     char time[6];// = {0};
 } EVENT;
 
+int checking_login(char* , char* , FILE*);
+void add_event();
+void delete_event();
+void write_in_file(int, EVENT*, FILE*);
+void sort_newest_date();
+void sort_by_alphabet();
+void sort_oldest_date();
+void delete_category();
+void add_category();
+void view_events();
+int admin_login()
+
+
+int main()
+{
+    char account = 0;
+
+    printf("Welcome! Let's explore!\n");
+
+    do
+    {
+        printf("\nHow are you logging in? (type 0 to exit)\n");
+        printf("Admin [A] or Guest [G]: \n");
+        scanf(" %c", &account);
+        //printf("%c", account);
+
+        if(account == 'A')
+        {
+            int p = 0;
+            //p is used as a flag for (in)correct login data, 0 for incorrect
+
+            p = admin_login();
+
+            if(p)
+            {
+                printf("Successful login!\n");
+
+                char admin_choice = 'B';
+                //for registering admin's choice
+
+                do
+                {
+                    printf("\nWhat would you like to do?\n");
+                    printf("\tAdd event [A]\n");
+                    printf("\tChange event details [C]\n");
+                    printf("\tDelete event [D]\n");
+                    printf("\tView events [V]\n");
+                    printf("\tSort events [S]\n");
+                    printf("\tDelete event category [E]\n");
+                    printf("\tAdd event category [T]\n");
+                    printf("\tBack [B]\n");
+
+                    scanf(" %c", &admin_choice);
+
+                if (admin_choice == 'A')
+                    add_event();
+
+                else if(admin_choice == 'C')
+                    change_event_details();
+
+                else if(admin_choice == 'D')
+                    delete_event();
+
+                else if(admin_choice == 'V')
+                    view_events();
+
+                else if(admin_choice=='S')
+                    {
+                        char sort_choice = 0;
+                        printf("\nHow would you like to sort?\n");
+                        printf("\tSort by newest date [N]\n");
+                        printf("\tSort by oldest date [O]\n");
+                        printf("\tSort by alphabet [A]\n");
+                        scanf("%s", &sort_choice);
+                        if(sort_choice=='N')
+                            sort_newest_date();
+                        if(sort_choice=='A')
+                            sort_by_alphabet();
+                        if(sort_choice=='O')
+                            sort_oldest_date();
+                    }
+
+                else if(admin_choice == 'E')
+                    delet_category();
+
+                else if(admin_choice == 'T')
+                    add_category();
+
+                else if(admin_choice != 'B')
+                {
+                    printf("Unknown option!");
+                    //getchar();
+                }
+
+                }
+                while(admin_choice != 'B');
+            }
+
+            else
+            {
+                printf("Failed login!\n");
+                printf("Redirecting to guest account...\n");
+                account = 'G';
+            }
+        }
+
+
+        else if (account == 'G')
+        {
+            char guest_choice = 'F';
+            //for registering guest's choice
+
+            do
+            {
+                printf("What would you like to do?");
+                printf("\tView today's events [A]\n");
+                printf("\tView past events [B]\n");
+                printf("\tView future event [C]\n");
+                printf("\tView events by category [D]\n");
+                printf("\tPlay the quiz [E]\n");
+                printf("\tBack [F]\n");
+
+                scanf(" %c", &guest_choice);
+
+                if(guest_choice == 'A')
+
+                else if(guest_choice == 'B')
+
+                else if(guest_choice == 'C')
+
+                else if(guest_choice == 'D')
+
+                else if(guest_choice != 'E')
+
+                else if(guest_choice != 'F')
+                {
+                    printf("Unknown option!");
+                    //getchar();
+                }
+
+            }
+            while(guest_choice != 'F');
+        }
+
+        else if (account != '0');
+        {
+            printf("Unknown option!");
+            //getchar(); //might be needed
+        }
+    }
+    while(account != '0');
+
+    return 0;
+}
+
+
 int checking_login(char username[], char password[], FILE *fp)
 {
     char temp_username[20],  temp_password[20];
@@ -95,7 +251,7 @@ void delete_event()
     }
 }
 
-void writte_in_file(int n, EVENT *arr, FILE *fp)// pomocna funkcija
+void write_in_file(int n, EVENT *arr, FILE *fp)// pomocna funkcija
 {
     int i;
     for(i=0; i<n; i++)
@@ -178,7 +334,14 @@ void sort_oldest_date()
     printf("Fajl sa dogadjajima sortiranim po najstarijem datumu!");
 }
 
-void view_events(int* admin_menu)
+void delete_category()
+{
+}
+
+void add_category()
+{}
+
+void view_events()
 {
     FILE *fp;
     char name[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
@@ -214,130 +377,4 @@ int admin_login()
             while(!a && --attempts >= 0);
 
     return a;
-}
-
-
-int main()
-{
-    char account = 0;
-
-    printf("Welcome! Let's explore!\n");
-
-    do
-    {
-        printf("\nHow are you logging in? (type 0 to exit)\n");
-        printf("Admin [A] or Guest [G]: \n");
-        scanf(" %c", &account);
-        //printf("%c", account);
-
-        if(account == 'A')
-        {
-            int p = 0;
-            //p is used as a flag for (in)correct login data, 0 for incorrect
-
-            p = admin_login();
-
-            if(p)
-            {
-                char admin_choice = 0;
-                //for registering admin's choice
-                int admin_menu = 0;
-                //for facilitating the return to the admin menu in combo with do while loop
-
-                do
-                {
-
-                printf("What would you like to do?");
-                printf("\tAdd event [A]\n");
-                printf("\tChange event details [C]\n");
-                printf("\tDelete event [D]\n");
-                printf("\tView events [V]\n");
-                printf("\tSort events [S]\n");
-                printf("\tDelete event category [E]\n");
-                printf("\tAdd event category [T]\n");
-                printf("\tBack [B]\n");
-
-                scanf(" %c", &admin_choice);
-
-                if (admin_choice == 'A')
-
-                else if(admin_choice == 'D')
-                    delete_event(&admin_menu);
-                else if(admin_choice == 'V')
-                    view_events(&admin_menu);
-
-                else if(admin_choice=='S')
-                    {
-                        char sort_choice = 0;
-                        printf("\nHow would you like to sort?\n");
-                        printf("\tSort by newest date [N]\n");
-                        printf("\tSort by oldest date [O]\n");
-                        printf("\tSort by alphabet [A]\n");
-                        scanf("%s", &sort_choice);
-                        if(sort_choice=='N')
-                            sort_newest_date();
-                        if(sort_choice=='A')
-                            sort_by_alphabet();
-                        if(sort_choice=='O')
-                            sort_oldest_date();
-                    }
-
-                else if(admin_choice != 'B') printf("Unknown option!");
-
-                }
-                while(admin_menu != 'B');
-            }
-
-            else break;
-        }
-
-
-        else if (account == 'G')
-        {
-            char guest_choice;
-            //for registering guest's choice
-
-        do
-        {
-        printf("What would you like to do?");
-        printf("\tView today's events [A]\n");
-        printf("\tView past events [B]\n");
-        printf("\tView future event [C]\n");
-        printf("\tView events by category [D]\n");
-        printf("\tPlay the quiz [E]\n");
-        printf("\tBack [F]\n");
-
-        scanf(" %c", &guest_choice);
-
-        if(guest_choice == 'A')
-
-        else if(guest_choice == 'B')
-
-        else if(guest_choice == 'C')
-
-        else if(guest_choice == 'D')
-
-        else if(guest_choice != 'E')
-
-        else if(guest_choice != 'F')
-        {
-            printf("Unknown option!");
-        }
-
-        }
-        while(guest_choice != 'F');
-
-
-        }
-
-        else if (account != '0');
-        {
-        printf("Unknown option!");
-        begin = 1;
-        }
-
-    }
-    while(account != '0')
-
-    return 0;
 }
