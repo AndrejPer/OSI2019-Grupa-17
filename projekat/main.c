@@ -219,13 +219,13 @@ int admin_login()
 
 int main()
 {
-    char begin = 0, account = 0;
+    char account = 0;
 
     printf("Welcome! Let's explore!\n");
 
     do
     {
-        printf("\nHow are you logging in?\n");
+        printf("\nHow are you logging in? (type 0 to exit)\n");
         printf("Admin [A] or Guest [G]: \n");
         scanf(" %c", &account);
         //printf("%c", account);
@@ -287,13 +287,15 @@ int main()
                 }
                 while(admin_menu != 'B');
             }
+
+            else break;
         }
 
 
-    else if (account == 'G')
-    {
-        char guest_choice;
-        //for registering guest's choice
+        else if (account == 'G')
+        {
+            char guest_choice;
+            //for registering guest's choice
 
         do
         {
@@ -325,14 +327,17 @@ int main()
         }
         while(guest_choice != 'F');
 
-        //this is a test
-        //this is also a test
-        //and another test
-    }
 
+        }
+
+        else if (account != '0');
+        {
+        printf("Unknown option!");
+        begin = 1;
+        }
 
     }
-    while(begin); //we should scrap this
+    while(account != '0')
 
     return 0;
 }
