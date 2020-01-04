@@ -265,7 +265,7 @@ int main()
                     delete_event(&admin_menu);
                 else if(admin_choice == 'V')
                     view_events(&admin_menu);
-                    
+
                 else if(admin_choice=='S')
                     {
                         char sort_choice = 0;
@@ -325,8 +325,9 @@ int main()
         }
         while(guest_choice != 'F');
 
-
-
+        //this is a test
+        //this is also a test
+        //and another test
     }
 
 
