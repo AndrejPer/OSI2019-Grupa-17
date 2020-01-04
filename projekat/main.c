@@ -2,52 +2,180 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct event
+{
+    char name[41];//= {0};
+    char desc[501];// = {0}; //description
+    char loc[101];// = {0}; //location
+    char cat[6];// = {0}; //5-cipher ID of the category
+    char date[9] ;//= {0};
+    char time[6];// = {0};
+} EVENT;
+
 int checking_login(char username[], char password[], FILE *fp)
 {
     char temp_username[20],  temp_password[20];
-
-        while (fscanf(fp, "%s %s",temp_username, temp_password )!=EOF)
-        {
-
-            if(strcmp(username,temp_username)==0 && strcmp(password, temp_password)==0)
-                return 1;
-        }
+    while (fscanf(fp, "%s %s",temp_username, temp_password )!=EOF)
+    {
+        if(strcmp(username,temp_username)==0 && strcmp(password, temp_password)==0)
+            return 1;
+    }
     return 0;
-
 }
-void delete_event(int* admin_menu)
+
+void add_event()
+{
+    EVENT tmp;
+    char name[41] = {0};
+    char desc[501] = {0}; //description
+    char loc[101] = {0}; //location
+    int cat[6] = {0}; //5-cipher ID of the category
+    char date[9] = {0};
+    char time[6] = {0};
+
+
+    printf("Glad you are adding more events to the database!\n");
+    printf("Please enter the following information about the event:\n");
+
+    printf("Name (up to 40 characters): "); scanf(" %s", name);
+    printf("Description (up to 500 characters): "); scanf(" %s", desc);
+    printf("Location (up to 100 characters): "); scanf(" %s", loc);
+    printf("Date (DD/MM/YY): "); scanf(" %s", date);
+    printf("Time (HH:MM): "); scanf(" %s", time);
+
+    //add_category_to_event();
+
+    strcpy(tmp.name, name);
+    strcpy(tmp.name, name);
+    strcpy(tmp.name, name);
+    strcpy(tmp.name, name);
+    strcpy(tmp.name, name);
+}
+
+void delete_event()
 {
     FILE *fp1, *fp2;
-    char name[20], temp[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
-
-    if((fp1 = fopen("Events.txt", "r")))
+    char name[41], temp[41], desc[501], loc[101], cat[21], date[9], time[6];
+    int i=1;
+    if((fp1=fopen("Events.txt", "r")))
     {
-        while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
-            printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
+        printf("List of all events:\n\n");
+        while(fscanf(fp1, "%s %s %s %s %s %s", name, desc, loc, cat, date, time)!=EOF)
+            printf("%s %s %s %s %s %s\n", name, desc, loc, loc, date, time);
         rewind(fp1);
-            printf("Name the event you wish to delete ");
-            scanf("%s", temp);
-            while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
-                if(strcmp(name,temp)==0)
-                {
-                    if(fp2=fopen("Replica.txt", "w"))
+        printf("\nPleas name the event you wish to delete!\n");
+        scanf("%s", temp);
+        while(fscanf(fp1, "%s %s %s %s %s %s", name, desc, loc, cat, date, time)!=EOF)
+            if(strcmp(name,temp)==0)
+            {
+                if((fp2=fopen("Replica.txt", "w")))
                 {
                     rewind(fp1);
-                    while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
+                    while(fscanf(fp1, "%s %s %s %s %s %s", name, desc, loc, cat, date, time)!=EOF)
                         if(strcmp(name, temp)!=0)
-                        fprintf(fp2, "%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
+                            fprintf(fp2, "%s %s %s %s %s %s\n", name, desc, loc, cat, date, time);
 
-                fclose(fp2);
+                    fclose(fp2);
                 }
-                }
-        fclose(fp1);
+
+                fclose(fp1);
+                remove("Events.txt");
+                rename("Replica.txt", "Events.txt");
+                if((fp1=fopen("Events.txt", "r")))
+                    printf("\nList of events after deletin:\n\n");
+                while(fscanf(fp1, "%s %s %s %s %s %s", name, desc, loc, cat, date, time)!=EOF)
+                    printf("%s %s %s %s %s %s\n", name, desc, loc, cat, date, time);
+            }
+            else
+            {
+                while (i-- == 1)
+                    printf("\nThere is no event with that name!\n");
+
+            }
+    }
+}
+
+void writte_in_file(int n, EVENT *arr, FILE *fp)// pomocna funkcija
+{
+    int i;
+    for(i=0; i<n; i++)
+        fprintf(fp,"%s %s %s %s %s %s\n", arr[i].name, arr[i].desc, arr[i].loc, arr[i].cat, arr[i].date, arr[i].time);
+}
+
+void sort_newest_date()
+{
+    int n=0, c=1000, i, j, h;
+    EVENT *arr=(EVENT *)malloc(c*sizeof(EVENT));
+    FILE *fout, *fin;
+    fin=fopen("Events.txt","r");
+    while(fscanf(fin,"%s %s %s %s  %s %s", arr[n].name, arr[n].desc, arr[n].loc, arr[n].cat, arr[n].date, arr[n].time)!=EOF)
+        n++;
+    fclose(fin);
+    for (h = n / 2; h > 0; h /= 2)
+    {
+        for (i = h; i < n; i++)
+        {
+            EVENT temp = arr[i];
+            for (j = i; j >= h && strcmp(arr[j - h].date, temp.date) < 0; j -= h)
+                arr[j] = arr[j - h];
+            arr[j] = temp;
         }
-        remove("Events.txt");
-        rename("Replica.txt", "Events.txt");
-        if(fp2=fopen("Events.txt", "r"))
-        while(fscanf(fp2, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
-            printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
+    }
+    if ((fout = fopen("Sort_newest_date.txt", "w")))
+        writte_in_file(n, arr, fout);
+    fclose(fout);
+    printf("Napravljen je fajl sa dogadjajima sortiranim po najnovijem datumu!");
+}
 
+
+void sort_by_alphabet()
+{
+    int n=0, c=1000, i, j, h;
+    EVENT *arr=(EVENT *)malloc(c*sizeof(EVENT));
+    FILE *fout, *fin;
+    fin=fopen("Events.txt","r");
+    while(fscanf(fin,"%s %s %s %s  %s %s", arr[n].name, arr[n].desc, arr[n].loc, arr[n].cat, arr[n].date, arr[n].time)!=EOF)
+        n++;
+    fclose(fin);
+    for (h = n / 2; h > 0; h /= 2)
+    {
+        for (i = h; i < n; i++)
+        {
+            EVENT temp = arr[i];
+            for (j = i; j >= h && strcmp(arr[j - h].name, temp.name) > 0; j -= h)
+                arr[j] = arr[j - h];
+            arr[j] = temp;
+        }
+    }
+    if ((fout = fopen("Sort_by_alphabet.txt", "w")))
+        writte_in_file(n, arr, fout);
+    fclose(fout);
+    printf("Napravljen fajl!");
+}
+
+void sort_oldest_date()
+{
+    int n=0, c=1000, i, j, h;
+    EVENT *arr=(EVENT *)malloc(c*sizeof(EVENT));
+    FILE *fout, *fin;
+    fin=fopen("Events.txt","r");
+    while(fscanf(fin,"%s %s %s %s  %s %s", arr[n].name, arr[n].desc, arr[n].loc, arr[n].cat, arr[n].date, arr[n].time)!=EOF)
+        n++;
+    fclose(fin);
+    for (h = n / 2; h > 0; h /= 2)
+    {
+        for (i = h; i < n; i++)
+        {
+            EVENT temp = arr[i];
+            for (j = i; j >= h && strcmp(arr[j - h].date, temp.date) > 0; j -= h)
+                arr[j] = arr[j - h];
+            arr[j] = temp;
+        }
+    }
+    if ((fout = fopen("Sort_oldest_date.txt", "w")))
+        writte_in_file(n, arr, fout);
+    fclose(fout);
+    printf("Fajl sa dogadjajima sortiranim po najstarijem datumu!");
 }
 
 void view_events(int* admin_menu)
@@ -105,7 +233,6 @@ int main()
         if(account == 'A')
         {
             int p = 0;
-            //attempts is used to limit number of attempts
             //p is used as a flag for (in)correct login data, 0 for incorrect
 
             p = admin_login();
@@ -138,6 +265,22 @@ int main()
                     delete_event(&admin_menu);
                 else if(admin_choice == 'V')
                     view_events(&admin_menu);
+                    
+                else if(admin_choice=='S')
+                    {
+                        char sort_choice = 0;
+                        printf("\nHow would you like to sort?\n");
+                        printf("\tSort by newest date [N]\n");
+                        printf("\tSort by oldest date [O]\n");
+                        printf("\tSort by alphabet [A]\n");
+                        scanf("%s", &sort_choice);
+                        if(sort_choice=='N')
+                            sort_newest_date();
+                        if(sort_choice=='A')
+                            sort_by_alphabet();
+                        if(sort_choice=='O')
+                            sort_oldest_date();
+                    }
 
                 else if(admin_choice != 'B') printf("Unknown option!");
 
