@@ -394,6 +394,7 @@ void view_events()
 
 void guest_view_events(int flag)
 {
+    if(flag == 0) {}
 
 }
 
