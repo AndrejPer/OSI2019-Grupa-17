@@ -10,8 +10,10 @@ typedef struct event
     char cat[6];// = {0}; //5-cipher ID of the category
     char date[9] ;//= {0};
     char time[6];// = {0};
+    char id[6];//5-character id of the event
 } EVENT;
 
+int admin_login();
 int checking_login(char* , char* , FILE*);
 void add_event();
 void delete_event();
@@ -21,8 +23,11 @@ void sort_by_alphabet();
 void sort_oldest_date();
 void delete_category();
 void add_category();
+void change_event_details();
 void view_events();
-int admin_login()
+void guest_view_events(int);
+void events_by_category();
+void quiz();
 
 
 int main()
@@ -95,7 +100,7 @@ int main()
                     }
 
                 else if(admin_choice == 'E')
-                    delet_category();
+                    delete_category();
 
                 else if(admin_choice == 'T')
                     add_category();
@@ -112,10 +117,9 @@ int main()
 
             else
             {
-                printf("Failed login!\n");
-                printf("Redirecting to guest account...\n");
-                account = 'G';
+                printf("\nFailed login!\n");
             }
+
         }
 
 
@@ -126,7 +130,7 @@ int main()
 
             do
             {
-                printf("What would you like to do?");
+                printf("What would you like to do?\n");
                 printf("\tView today's events [A]\n");
                 printf("\tView past events [B]\n");
                 printf("\tView future event [C]\n");
@@ -137,18 +141,23 @@ int main()
                 scanf(" %c", &guest_choice);
 
                 if(guest_choice == 'A')
+                    guest_view_events(1);
 
                 else if(guest_choice == 'B')
+                    guest_view_events(0);
 
                 else if(guest_choice == 'C')
+                    guest_view_events(2);
 
                 else if(guest_choice == 'D')
+                    events_by_category();
 
-                else if(guest_choice != 'E')
+                else if(guest_choice == 'E')
+                    quiz();
 
                 else if(guest_choice != 'F')
                 {
-                    printf("Unknown option!");
+                    printf("Unknown option!\n");
                     //getchar();
                 }
 
@@ -156,10 +165,10 @@ int main()
             while(guest_choice != 'F');
         }
 
-        else if (account != '0');
+        else if (account != '0' && account != 'A');//for some weird reason
         {
-            printf("Unknown option!");
-            //getchar(); //might be needed
+            printf("Unknown option!\n");
+            getchar(); //might be needed
         }
     }
     while(account != '0');
@@ -167,6 +176,34 @@ int main()
     return 0;
 }
 
+int admin_login()
+{
+    FILE *facc = fopen("Accounts.txt", "r");
+    //this is the file where the login data is stored
+    char usern[30], pass[30];
+    //string for collecting username and password
+    int a = 0, attempts = 0;//attempts = 3;
+
+            do
+            {
+                printf("Username: ");
+                scanf(" %s", usern);
+                printf("Password: ");
+                scanf(" %s", pass);
+                a = checking_login(usern, pass, facc);
+
+                if(!a) printf("\nIncorrect user-name or password.\n");
+
+                else
+                {   printf("Logging in...\n\n");
+                    printf("Welcome %s", usern);//username
+                }
+
+            }
+            while(!a && --attempts >= 0);
+    fclose(facc);
+    return a;
+}
 
 int checking_login(char username[], char password[], FILE *fp)
 {
@@ -190,7 +227,7 @@ void add_event()
     char time[6] = {0};
 
 
-    printf("Glad you are adding more events to the database!\n");
+    printf("\nGlad you are adding more events to the database!\n");
     printf("Please enter the following information about the event:\n");
 
     printf("Name (up to 40 characters): "); scanf(" %s", name);
@@ -278,7 +315,7 @@ void sort_newest_date()
         }
     }
     if ((fout = fopen("Sort_newest_date.txt", "w")))
-        writte_in_file(n, arr, fout);
+        write_in_file(n, arr, fout);
     fclose(fout);
     printf("Napravljen je fajl sa dogadjajima sortiranim po najnovijem datumu!");
 }
@@ -304,7 +341,7 @@ void sort_by_alphabet()
         }
     }
     if ((fout = fopen("Sort_by_alphabet.txt", "w")))
-        writte_in_file(n, arr, fout);
+        write_in_file(n, arr, fout);
     fclose(fout);
     printf("Napravljen fajl!");
 }
@@ -329,7 +366,7 @@ void sort_oldest_date()
         }
     }
     if ((fout = fopen("Sort_oldest_date.txt", "w")))
-        writte_in_file(n, arr, fout);
+        write_in_file(n, arr, fout);
     fclose(fout);
     printf("Fajl sa dogadjajima sortiranim po najstarijem datumu!");
 }
@@ -341,40 +378,31 @@ void delete_category()
 void add_category()
 {}
 
+void change_event_details()
+{
+
+}
+
 void view_events()
 {
     FILE *fp;
     char name[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
-    if(fp=fopen("Events.txt", "r"))
+    if((fp = fopen("Events.txt", "r")))
     while(fscanf(fp, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
     printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
 }
 
-int admin_login()
+void guest_view_events(int flag)
 {
-    FILE *facc = fopen("Accounts.txt", "r");
-    //this is the file where the login data is stored
-    char usern[30], pass[30];
-    //string for collecting username and password
-    int a = 0, attempts = 3;
 
-            do
-            {
-                printf("Username: ");
-                scanf(" %s", usern);
-                printf("Password: ");
-                scanf(" %s", pass);
-                a = checking_login(usern, pass, facc);
+}
 
-                if(!a) printf("\nIncorrect username of password.\n");
+void events_by_category()
+{
 
-                else
-                {   printf("Loging in...\n\n");
-                    printf("Welcome %s", usern);//username
-                }
+}
 
-            }
-            while(!a && --attempts >= 0);
+void quiz()
+{
 
-    return a;
 }
