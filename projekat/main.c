@@ -256,7 +256,7 @@ void add_event()
     printf("Name (up to 40 characters): ");
     scanf(" %s", temp->name);
     printf("Description (up to 500 characters) and instead ' ' write '/' ");
-    scanf(" %[^\n]s", temp->desc);
+    scanf(" %s", temp->desc);
     printf("Location (up to 100 characters): ");
     scanf(" %s", temp->loc);
 
