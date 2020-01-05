@@ -216,6 +216,40 @@ int checking_login(char username[], char password[], FILE *fp)
     return 0;
 }
 /*
+void view_events()
+{
+    FILE *fp;
+    char name[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
+    if((fp = fopen("Events.txt", "r")))
+    while(fscanf(fp, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
+    printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
+}
+*/
+void view_events()
+{
+    FILE *fp;
+    EVENT pom;
+    if((fp=fopen("Events.txt", "r"))!=0)
+    {
+        while(fscanf(fp, "%s %s %s %s %s %s", pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
+        {
+            printf("%s ",pom.name);
+            int n=strlen(pom.desc),i;
+            for(i=0; i<n; i++)
+                if(pom.desc[i]=='/')
+                    printf(" ");
+                else printf("%c",pom.desc[i]);
+            printf(" ");
+            printf("%s ",pom.loc);
+            printf("%s ",pom.cat);
+            printf("%s ",pom.date);
+            printf("%s",pom.time);
+            printf("\n");
+        }
+        fclose(fp);
+    }
+}
+/*
 void add_event()
 {
     EVENT tmp;
@@ -577,15 +611,6 @@ void add_category()
 
 void list_categories(FILE* fcat)
 {
-}
-
-void view_events()
-{
-    FILE *fp;
-    char name[20], opis[20], lok[20], kategorija[20], datum[20], vrijeme[20];
-    if((fp = fopen("Events.txt", "r")))
-    while(fscanf(fp, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
-    printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
 }
 
 void guest_view_events(int flag)
