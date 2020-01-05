@@ -1,72 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int checking_login(char*, char*, FILE*)
 
-int main()
+typedef struct event {
+char name[101] ;
+char desc[501]; //description
+char loc[101]; //location
+int cat[6]; //5-cipher ID of the category
+char date[9];
+char time[6];
+char id[6]; //5-character id of the event
+} EVENT;
+
+void citaj(EVENT *);
+int main(int argc, char *argv[])
 {
-    char begin = 0, account = 0;
+  int i, n;
+  EVENT *niz;
+  FILE *dat;
+  do printf("n="), scanf("%d", &n); while (n < 1);
+  niz = (EVENT *)malloc(n * sizeof(EVENT));
+  for (i = 0; i < n; i++)
+    printf("%d. Event:\n", i + 1), citaj(niz + i);
+  if (dat = fopen("Events.dat", "wb")) {fwrite(niz, sizeof(EVENT), n, dat); fclose(dat);}
+  free(niz); return 0;
+}
 
-    printf("Welcome! Let's explore!\n");
 
-    do
-    {
-        printf("\nHow are you logging in?\n");
-        printf("Admin [A] or Guest [G]: \n");
-        scanf(" %c", &account);
-        //printf("%c", account);
-        
-        if(account == 'A')
-        {
-            int attempts = 3, p = 0;
-            //attempts is used to limit number of attempts
-            //p is used as a flag for (in)correct login data, 0 for incorrect
-            FILE *facc = fopen("Accounts.txt", "r");
-            //this is the file where the login data is stored
-            char usern[10], pass[10];
-            //string for collecting username and password
-            
-            do
-            {
-                printf("Username: ");
-                scanf(" %s", usern);
-                printf("Password: ");
-                scanf(" %s", pass);
-                p = checking_login(usern, pass, facc);
-                
-                if(!p) printf("\nIncorrect username of password.\n");
-                
-                else 
-                {   printf("Loging in...\n\n");
-                    printf("Welcome %s", username);
-                }
-                
-            }
-            while(!p && --attempts >= 0);
-            
-            if(p)
-            {
-                char admin_choice = 0;
-                //for registering admin's choice
-                
-                printf("What would you like to do?");
-                printf("\tAdd event [A]\n");
-                printf("\tChange event details [C]\n");
-                printf("\tDelete event [D]\n");
-                printf("\tView events [V]\n");
-                printf("\tSort events [S]\n");
-                printf("\tDelete event category [E]\n");
-                printf("\tAdd event category [T]\n");
-                printf("\tBack [B]\n");
-                
-                scanf(" %c", &admin_choice)
-            }
-        }
-        
-        
-        
-    }
-    while(begin);
 
-    return 0;
+void citaj(EVENT *event)
+{
+  printf("  Event name: ");
+  scanf(" %[^\n]", event->name);
+  printf("  Description: ");
+  scanf(" %[^\n]", event->desc);
+  printf("  Location: ");
+  scanf(" %[^\n]", event->loc);
+  printf("  Category ID: ");
+  scanf("%d", &event->cat);
+  printf("  Date: ");
+  scanf(" %[^\n]", event->date);
+  printf("  Time: ");
+  scanf(" %[^\n]", event->time);
+  printf("  Event ID: ");
+  scanf(" %[^\n]", event->id);
+
 }
