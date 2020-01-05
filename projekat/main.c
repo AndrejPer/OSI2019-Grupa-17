@@ -350,6 +350,7 @@ void add_event()
     view_events();
     free(temp);
 }
+
 void delete_event()
 {
     FILE *fp1, *fp2;
@@ -533,7 +534,7 @@ void sort_newest_date()
     if ((fout = fopen("Sort_newest_date.txt", "w")))
         write_in_file(n, arr, fout);
     fclose(fout);
-    printf("Napravljen je fajl sa dogadjajima sortiranim po najnovijem datumu!");
+    printf("\nFile was made with events sorted by newest date!\n");
 }
 
 
@@ -559,7 +560,7 @@ void sort_by_alphabet()
     if ((fout = fopen("Sort_by_alphabet.txt", "w")))
         write_in_file(n, arr, fout);
     fclose(fout);
-    printf("Napravljen fajl!");
+    printf("\nFile was made with events sorted by alphabet!\n");
 }
 
 void sort_oldest_date()
@@ -584,7 +585,7 @@ void sort_oldest_date()
     if ((fout = fopen("Sort_oldest_date.txt", "w")))
         write_in_file(n, arr, fout);
     fclose(fout);
-    printf("Fajl sa dogadjajima sortiranim po najstarijem datumu!");
+    printf("\nFile was made with events sorted by oldest date!\n");
 }
 
 void delete_category()
@@ -648,14 +649,29 @@ void view_todays_events()
     tm = localtime(&t);
 
     strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
-
-    if((fp=fopen("Events.txt","r")))
+ if((fp=fopen("Events.txt", "r"))!=0)
     {
         while(fscanf(fp, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
         {
-            if(strcmp(ev.date, str_date)==0)
-                printf("%s %s %s %s %s %s\n",ev.name,ev.desc,ev.loc,ev.cat,ev.date,ev.time);
+            if(strcmp(str_date, ev.date)==0)
+            {
+            printf("%s ",ev.name);
+            int n=strlen(ev.desc),i;
+            for(i=0; i<n; i++)
+                if(ev.desc[i]=='/')
+                    printf(" ");
+                else
+                    printf("%c",ev.desc[i]);
+            printf(" ");
+            printf("%s ",ev.loc);
+            printf("%s ",ev.cat);
+            printf("%s ",ev.date);
+            printf("%s",ev.time);
+            printf("\n");
+        }
+        fclose(fp);
         }
     }
+
 }
 
