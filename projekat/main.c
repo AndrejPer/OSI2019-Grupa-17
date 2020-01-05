@@ -287,7 +287,117 @@ void delete_event()
             }
     }
 }
+void change_event_details()
+{
+    FILE *fp1, *fp2;
+    EVENT pom,*temp;
+    temp=malloc(sizeof(EVENT));
+    char change_event[41],admin_choice;
+    int i=0, m=0;
+    if((fp1=fopen("Events.txt", "r"))!=0)
+    {
+        printf("List of all events:\n\n");
+        while(fscanf(fp1, "%s %s %s %s %s %s", pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
+        {
+            printf("%s ",pom.name);
+            int n=strlen(pom.desc),i;
+            for(i=0; i<n; i++)
+                if(pom.desc[i]=='/')
+                    printf(" ");
+                else printf("%c",pom.desc[i]);
+            printf(" ");
+            printf("%s ",pom.loc);
+            printf("%s ",pom.cat);
+            printf("%s ",pom.date);
+            printf("%s\n",pom.time);
+            m++;
+        }
+        rewind(fp1);
+        printf("\nPleas name the event you wish to change!\n");
+        scanf("%s", change_event);
+        while(fscanf(fp1, "%s %s %s %s %s %s", pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
+            if(strcmp(pom.name,change_event)==0)
+            {
+                if((fp2=fopen("Change.txt", "w"))!=0)
+                {
+                    rewind(fp1);
+                    while(fscanf(fp1, "%s %s %s %s %s %s", pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
+                        if(strcmp(pom.name, change_event)!=0)
+                            fprintf(fp2, "%s %s %s %s %s %s\n", pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time);
+                        else
+                        {
+                            strcpy(temp->name,pom.name);
+                            strcpy(temp->desc,pom.desc);
+                            strcpy(temp->loc,pom.loc);
+                            strcpy(temp->cat,pom.cat);
+                            strcpy(temp->date,pom.date);
+                            strcpy(temp->time,pom.time);
 
+                            do
+                            {
+                                printf("\nWhat would you like to change?\n");
+                                printf("\tName [N]\n");
+                                printf("\tDescription[O]\n");
+                                printf("\tLocation [L]\n");
+                                printf("\tCategory [C]\n");
+                                printf("\tDate [D]\n");
+                                printf("\tTime[T]\n");
+                                printf("\tBack [B]\n");
+                                scanf(" %c", &admin_choice);
+                                if(admin_choice=='N')
+                                {
+                                    printf("Name (up to 40 characters): ");
+                                    scanf(" %s", temp->name);
+                                }
+                                if(admin_choice=='O')
+                                {
+                                    printf("Description (up to 500 characters) and instead ' ' write '/' ");
+                                    scanf(" %s", temp->desc);
+                                }
+                                if(admin_choice=='L')
+                                {
+                                    printf("Location (up to 100 characters): ");
+                                    scanf(" %s", temp->loc);
+                                }
+                                if(admin_choice=='C')
+                                {
+                                    printf("Category(up to 6 characters):");
+                                    scanf(" %s", temp->cat);
+                                }
+                                if(admin_choice=='D')
+                                {
+                                    printf("Date (DD/MM/YY): ");
+                                    scanf(" %s", temp->date);
+                                }
+                                if(admin_choice=='T')
+                                {
+                                    printf("Time (HH:MM): ");
+                                    scanf(" %s", temp->time);
+                                }
+                            }
+                            while(admin_choice!='B');
+
+                            fprintf(fp2,"%s %s %s %s %s %s\n",temp->name,temp->desc,temp->loc,temp->cat,temp->date,temp->time);
+                        }
+                    fclose(fp2);
+                }
+
+                fclose(fp1);
+                remove("Events.txt");
+
+                rename("Change.txt", "Events.txt");
+
+                printf("\nList of events :\n\n");
+                view_events();
+            }
+            else
+            {
+                i++;
+                if(i==m)
+                    printf("\nThere is no event with that name!\n");
+            }
+    }
+}
 void write_in_file(int n, EVENT *arr, FILE *fp)// pomocna funkcija
 {
     int i;
