@@ -249,7 +249,7 @@ void add_event()
 void add_event()
 {
     EVENT *temp,ev;
-    FILE *fp1,*fp2;
+    FILE *fp1,*fp2,*fp3;
     printf("Glad you are adding more events to the database!\n");
     printf("Please enter the following information about the event:\n");
     temp=malloc(sizeof(EVENT));
@@ -259,8 +259,32 @@ void add_event()
     scanf(" %[^\n]s", temp->desc);
     printf("Location (up to 100 characters): ");
     scanf(" %s", temp->loc);
-    printf("Category(up to 6 characters):");
-    scanf(" %s", temp->cat);
+
+    printf("List of categories: \n");
+    if((fp3=fopen("Categories.txt","r"))!=0)
+    {
+        int a=0;
+        while( fscanf(fp3,"%s %s",categ,id)!=EOF)
+            printf("%s %s\n", categ,id);
+
+        while(a==0)
+        {rewind(fp3);
+
+    printf("Category(up to 6 characters):\n");
+            scanf("%s",cat2);
+            while((fscanf(fp3,"%s %s",categ,id)!=EOF) )
+            {
+
+                if(strcmp(categ,cat2)==0)
+                    {
+                        strcpy(temp->cat,cat2);
+                        a++;
+                    }
+            }
+        }
+fclose(fp3);
+    }
+
     printf("Date (DD/MM/YY): ");
     scanf(" %s", temp->date);
     printf("Time (HH:MM): ");
