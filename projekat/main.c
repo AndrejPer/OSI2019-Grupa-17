@@ -8,7 +8,7 @@ typedef struct event
     char desc[501];// = {0}; //description
     char loc[101];// = {0}; //location
     char cat[6];// = {0}; //5-cipher ID of the category
-    char date[9] ;//= {0};
+    char date[11] ;//= {0};
     char time[6];// = {0};
     char id[6];//5-character id of the event
 } EVENT;
@@ -215,7 +215,7 @@ int checking_login(char username[], char password[], FILE *fp)
     }
     return 0;
 }
-
+/*
 void add_event()
 {
     EVENT tmp;
@@ -244,7 +244,46 @@ void add_event()
     strcpy(tmp.name, name);
     strcpy(tmp.name, name);
 }
+*/
 
+void add_event()
+{
+    EVENT *temp,ev;
+    FILE *fp1,*fp2;
+    printf("Glad you are adding more events to the database!\n");
+    printf("Please enter the following information about the event:\n");
+    temp=malloc(sizeof(EVENT));
+    printf("Name (up to 40 characters): ");
+    scanf(" %s", temp->name);
+    printf("Description (up to 500 characters) and instead ' ' write '/' ");
+    scanf(" %[^\n]s", temp->desc);
+    printf("Location (up to 100 characters): ");
+    scanf(" %s", temp->loc);
+    printf("Category(up to 6 characters):");
+    scanf(" %s", temp->cat);
+    printf("Date (DD/MM/YY): ");
+    scanf(" %s", temp->date);
+    printf("Time (HH:MM): ");
+    scanf(" %s", temp->time);
+    if((fp1=fopen("Events.txt","r"))!=0)
+    {
+
+        if((fp2=fopen("new.txt","w"))!=0)
+        {
+            rewind(fp1);
+            while(fscanf(fp1, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                fprintf(fp2,"%s %s %s %s %s %s\n",ev.name,ev.desc,ev.loc,ev.cat,ev.date,ev.time);
+            fprintf(fp2,"%s %s %s %s %s %s\n",temp->name,temp->desc,temp->loc,temp->cat,temp->date,temp->time);
+            fclose(fp2);
+        }
+        fclose(fp1);
+    }
+    remove("Events.txt");
+    rename("new.txt","Events.txt");
+    printf("\nList of events after adding:\n\n");
+    view_events();
+    free(temp);
+}
 void delete_event()
 {
     FILE *fp1, *fp2;
