@@ -525,11 +525,34 @@ void delete_category()
 }
 
 void add_category()
-{}
-
-void change_event_details()
 {
+    char response, cat_name[15] = {0}, cat_id[6] = {0};
+    FILE *fcat = fopen("Categories.txt", "a+");
+    printf("\nHere is the current list of categories:\n");
+    list_categories(fcat);
+    do
+    {
+        printf("\nAre you sure you want add another category [Y] or [N]:\n");
+        scnaf(" %c", &response);
+        if(response == 'Y')
+        {
+            printf("Please type the name of the category: ");
+            scanf(" %[^\n]",cat_name);
+            printf("Add category ID: ");
+            scanf(" %[^\n]",cat_id);
 
+            fprintf(fcat, "%s %s\n", cat_name, cat_id);
+            fclose(fcat);
+        }
+
+        else if (response != 'N')
+            printf("Unknown commande!");
+    }
+    while(response != 'N');
+}
+
+void list_categories(FILE* fcat)
+{
 }
 
 void view_events()
