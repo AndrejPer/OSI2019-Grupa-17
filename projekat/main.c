@@ -235,19 +235,31 @@ void view_events()
 {
     FILE *fp;
     EVENT pom;
+    int n,i;
     if((fp=fopen("Events.txt", "r"))!=0)
     {
         while(fscanf(fp, "%s %s %s %s %s %s", pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
         {
-            printf("%s ",pom.name);
-            int n=strlen(pom.desc),i;
+            n=strlen(pom.name);
+            for(i=0; i<n; i++)
+                if(pom.name[i]=='/')
+                    printf(" ");
+                else printf("%c",pom.name[i]);
+            printf(" ");
+
+             n=strlen(pom.desc);
             for(i=0; i<n; i++)
                 if(pom.desc[i]=='/')
                     printf(" ");
                 else
                     printf("%c",pom.desc[i]);
             printf(" ");
-            printf("%s ",pom.loc);
+             n=strlen(pom.loc);
+            for(i=0; i<n; i++)
+                if(pom.loc[i]=='/')
+                    printf(" ");
+                else printf("%c",pom.loc[i]);
+            printf(" ");
             printf("%s ",pom.cat);
             printf("%s ",pom.date);
             printf("%s",pom.time);
@@ -291,14 +303,15 @@ void add_event()
 {
     EVENT *temp,ev;
     FILE *fp1,*fp2,*fp3;
+    char categ[8],id[6],cat2[8];
     printf("Glad you are adding more events to the database!\n");
     printf("Please enter the following information about the event:\n");
     temp=malloc(sizeof(EVENT));
-    printf("Name (up to 40 characters): ");
+    printf("Name (up to 40 characters) and instead ' ' write '/'  ");
     scanf(" %s", temp->name);
     printf("Description (up to 500 characters) and instead ' ' write '/' ");
     scanf(" %s", temp->desc);
-    printf("Location (up to 100 characters): ");
+    printf("Location (up to 100 characters) and instead ' ' write '/'  ");
     scanf(" %s", temp->loc);
 
     printf("List of categories: \n");
@@ -588,10 +601,62 @@ void sort_oldest_date()
     printf("\nFile was made with events sorted by oldest date!\n");
 }
 
+
 void delete_category()
 {
-}
+    FILE *fp1, *fp2;
+    char categ[6],id[10],temp[6];
+    int i=0, m=0;
+    if((fp1=fopen("Categories.txt", "r"))!=0)
+    {
+        printf("List of all categories:\n\n");
+        while(fscanf(fp1, "%s %s ",categ,id)!=EOF)
+        {
+            printf("%s ",categ);
+            printf("%s \n",id);
+            m++;
+        }
+        rewind(fp1);
+        printf("\nPleas name the category you wish to delete!\n");
+        scanf("%s", temp);
+        while(fscanf(fp1, "%s %s ",categ,id)!=EOF)
+            if(strcmp(categ,temp)==0)
+            {
+                if((fp2=fopen("Replica.txt", "w"))!=0)
+                {
+                    rewind(fp1);
+                    while(fscanf(fp1, "%s %s ",categ,id)!=EOF)
+                        if(strcmp(categ, temp)!=0)
+                            fprintf(fp2, "%s %s \n", categ,id);
+                    fclose(fp2);
+                }
 
+                fclose(fp1);
+                remove("Categories.txt");
+                rename("Replica.txt", "Categories.txt");
+
+                printf("\nList of categories after deletin:\n\n");
+                rewind(fp2);
+                if((fp2=fopen("Categories.txt","r"))!=0)
+                {
+                    while(fscanf(fp2, "%s %s ",categ,id)!=EOF)
+                    {
+                        printf("%s ",categ);
+                        printf("%s \n",id);
+
+                    }
+                    fclose(fp2);
+                }
+            }
+            else
+            {
+                i++;
+                if(i==m)
+                    printf("\nThere is no category with that name!\n");
+
+            }
+    }
+}
 void add_category()
 {
     char response, cat_name[15] = {0}, cat_id[6] = {0};
@@ -601,7 +666,7 @@ void add_category()
     do
     {
         printf("\nAre you sure you want add another category [Y] or [N]:\n");
-        scnaf(" %c", &response);
+        scanf(" %c", &response);
         if(response == 'Y')
         {
             printf("Please type the name of the category: ");
