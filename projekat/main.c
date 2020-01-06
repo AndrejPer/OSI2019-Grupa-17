@@ -32,7 +32,8 @@ void view_events();
 void guest_view_events(int);
 void events_by_category();
 void quiz();
-
+void view_event_details();
+void comment();
 
 int main()
 {
@@ -875,3 +876,97 @@ void view_future_events()
     fclose(fevent);
 
 }
+
+void view_event_details()
+{
+    FILE *fp;
+    EVENT pom;
+    char guest_choice, name[50];
+    printf("Do you want see details and comment?\n");
+    printf("YES[Y] or BACK[B]\n");
+    scanf("%c",&guest_choice);
+    if(guest_choice=='Y')
+    {
+
+        int a=0,n,i;
+        if((fp=fopen("Events.txt","r"))!=0)
+        {
+            while(a==0)
+            {
+                printf("\nPleas name the event !\n");
+                scanf("%s", name);
+                rewind(fp);
+                while(fscanf(fp, "%s %s %s %s %s %s", pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
+                {
+                    if(strcmp(name,pom.name)==0)
+                    {
+                        n=strlen(pom.name);
+                        for(i=0; i<n; i++)
+                            if(pom.name[i]=='/')
+                                printf(" ");
+                            else printf("%c",pom.name[i]);
+                        printf(" ");
+
+                        n=strlen(pom.desc);
+                        for(i=0; i<n; i++)
+                            if(pom.desc[i]=='/')
+                                printf(" ");
+                            else printf("%c",pom.desc[i]);
+                        printf(" ");
+                        n=strlen(pom.loc);
+                        for(i=0; i<n; i++)
+                            if(pom.loc[i]=='/')
+                                printf(" ");
+                            else printf("%c",pom.loc[i]);
+                        printf(" ");
+                        printf("%s ",pom.cat);
+                        printf("%s ",pom.date);
+                        printf("%s",pom.time);
+                        printf("\n");
+                        a++;
+                    }
+
+                }
+            }
+            fclose(fp);
+        }
+        printf("Do you want to add or read a comments or back?\n");
+        printf("YES[Y] or BACK[B]\n");
+        getchar();
+        scanf("%c",&guest_choice);
+        if(guest_choice=='Y')
+        {
+            comment();
+        }
+    }
+
+}
+void comment()
+{
+    FILE *f,*fcom;
+    char s[15],com[500];
+    if((f=fopen("Comment.txt","r"))!=0)
+    {
+        if((fcom=fopen("Novi.txt","w"))!=0)
+        {
+
+            while(fgets(s,15,f)!=0)
+            {
+                printf("%s",s);
+                fputs(s,fcom);
+            }
+            printf("\n");
+            printf("Write a comment\n");
+            getchar();
+            scanf("%[^\n]s",com);
+            fputs(com,fcom);
+            fputc('\n',fcom);
+
+            fclose(fcom);
+        }
+        fclose(f);
+    }
+    remove("Comment.txt");
+    rename("Novi.txt","Comment.txt");
+}
+
