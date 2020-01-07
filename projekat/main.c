@@ -750,132 +750,8 @@ void quiz()
 
 }
 
-void view_todays_events()
-{
-    FILE *fevent, *fcat;
-    EVENT ev;
-    int count=0;
-    char cat_name[20];
-    struct tm *tm;
-    time_t t;
-    char str_date[100];
-    t=time(NULL);
-    tm = localtime(&t);
-    strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
-    list_categories(fcat);
-    printf("Izaberite kategoriju!\n");
-    scanf("%s", cat_name);
-    if((fevent=fopen("Events.txt", "r"))!=0)
-    {
-        while(fscanf(fevent, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
 
-            if(strcmp(str_date, ev.date)==0 && strcmp(cat_name, ev.cat)==0)
-            {
-                count++;
-                printf("%s ",ev.name);
-                int n=strlen(ev.desc),i;
-                for(i=0; i<n; i++)
-                    if(ev.desc[i]=='/')
-                        printf(" ");
-                    else
-                        printf("%c",ev.desc[i]);
-                printf(" ");
-                printf("%s ",ev.loc);
-                printf("%s ",ev.cat);
-                printf("%s ",ev.date);
-                printf("%s",ev.time);
-                printf("\n");
-            }
-        if(count==0)
-            printf("\nThere is no todays events!\n\n");
-    }
-    fclose(fevent);
 
-}
-
-void view_past_events()
-{
-    FILE *fevent, *fcat;
-    EVENT ev;
-    int count=0;
-    struct tm *tm;
-    time_t t;
-    char str_date[100], cat_name[20];
-    t=time(NULL);
-    tm = localtime(&t);
-    list_categories(fcat);
-    printf("Izaberite kategoriju!\n");
-    scanf("%s", cat_name);
-    strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
-    if((fevent=fopen("Events.txt", "r"))!=0)
-    {
-        while(fscanf(fevent, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-            if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0)
-            {
-                count++;
-                printf("%s ",ev.name);
-                int n=strlen(ev.desc),i;
-                for(i=0; i<n; i++)
-                    if(ev.desc[i]=='/')
-                        printf(" ");
-                    else
-                        printf("%c",ev.desc[i]);
-                printf(" ");
-                printf("%s ",ev.loc);
-                printf("%s ",ev.cat);
-                printf("%s ",ev.date);
-                printf("%s",ev.time);
-                printf("\n");
-            }
-        if(count==0)
-            printf("\nThere is no past events!\n\n");
-    }
-    fclose(fevent);
-
-}
-
-void view_future_events()
-{
-    FILE *fevent, *fcat;
-    EVENT ev;
-    int count=0;
-    struct tm *tm;
-    time_t t;
-    char str_date[100], cat_name[20];
-    t=time(NULL);
-    tm = localtime(&t);
-    list_categories(fcat);
-    printf("Izaberite kategoriju!\n");
-    scanf("%s", cat_name);
-    strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
-    if((fevent=fopen("Events.txt", "r"))!=0)
-    {
-        while(fscanf(fevent, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-
-            if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0)
-            {
-                count++;
-                printf("%s ",ev.name);
-                int n=strlen(ev.desc),i;
-                for(i=0; i<n; i++)
-                    if(ev.desc[i]=='/')
-                        printf(" ");
-                    else
-                        printf("%c",ev.desc[i]);
-                printf(" ");
-                printf("%s ",ev.loc);
-                printf("%s ",ev.cat);
-                printf("%s ",ev.date);
-                printf("%s",ev.time);
-                printf("\n");
-            }
-        if(count==0)
-            printf("\nThere is no future events!\n\n");
-
-    }
-    fclose(fevent);
-
-}
 
 void view_event_details()
 {
@@ -969,4 +845,189 @@ void comment()
     remove("Comment.txt");
     rename("Novi.txt","Comment.txt");
 }
+
+void view_todays_events()
+{
+    FILE *fevent, *fcat;
+    EVENT ev;
+    int count=0, i, n;
+    char cat_name[20];
+    struct tm *tm;
+    time_t t;
+    char str_date[100], guest_choice;
+    t=time(NULL);
+    tm = localtime(&t);
+    strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
+    list_categories(fcat);
+    printf("Izaberite kategoriju!\n");
+    scanf("%s", cat_name);
+    if((fevent=fopen("Events.txt", "r"))!=0)
+    {
+        while(fscanf(fevent, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+
+            if(strcmp(str_date, ev.date)==0 && strcmp(cat_name, ev.cat)==0)
+            {
+                count++;
+                n=strlen(ev.name);
+                for(i=0; i<n; i++)
+                    if(ev.name[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.name[i]);
+                printf(" ");
+
+                n=strlen(ev.desc);
+                for(i=0; i<n; i++)
+                    if(ev.desc[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.desc[i]);
+                printf(" ");
+                n=strlen(ev.loc);
+                for(i=0; i<n; i++)
+                    if(ev.loc[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.loc[i]);
+                printf(" ");
+                printf("%s ",ev.cat);
+                printf("%s ",ev.date);
+                printf("%s",ev.time);
+                printf("\n");
+                printf("Do you want choose option comment?\n");
+                printf("YES[Y] or BACK[B]\n");
+                scanf(" %c",&guest_choice);
+                if(guest_choice=='Y')
+                    view_event_details();
+
+            }
+        if(count==0)
+            printf("\nThere is no todays events!\n\n");
+    }
+    fclose(fevent);
+
+}
+
+void view_past_events()
+{
+    FILE *fevent, *fcat;
+    EVENT ev;
+    int count=0, n, i;
+    struct tm *tm;
+    time_t t;
+    char str_date[100], cat_name[20], guest_choice;
+    t=time(NULL);
+    tm = localtime(&t);
+    list_categories(fcat);
+    printf("Izaberite kategoriju!\n");
+    scanf("%s", cat_name);
+    strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
+    if((fevent=fopen("Events.txt", "r"))!=0)
+    {
+        while(fscanf(fevent, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+            if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0)
+            {
+                count++;
+                n=strlen(ev.name);
+                for(i=0; i<n; i++)
+                    if(ev.name[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.name[i]);
+                printf(" ");
+
+                n=strlen(ev.desc);
+                for(i=0; i<n; i++)
+                    if(ev.desc[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.desc[i]);
+                printf(" ");
+                n=strlen(ev.loc);
+                for(i=0; i<n; i++)
+                    if(ev.loc[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.loc[i]);
+                printf(" ");
+                printf("%s ",ev.cat);
+                printf("%s ",ev.date);
+                printf("%s",ev.time);
+                printf("\n");
+                printf("Do you want choose option comment?\n");
+                printf("YES[Y] or BACK[B]\n");
+                scanf(" %c",&guest_choice);
+                if(guest_choice=='Y')
+                    view_event_details();
+            }
+        if(count==0)
+            printf("\nThere is no past events!\n\n");
+    }
+    fclose(fevent);
+
+}
+
+void view_future_events()
+{
+    FILE *fevent, *fcat;
+    EVENT ev;
+    int count=0, i, n;
+    struct tm *tm;
+    time_t t;
+    char str_date[100], cat_name[20], guest_choice;
+    t=time(NULL);
+    tm = localtime(&t);
+    list_categories(fcat);
+    printf("Izaberite kategoriju!\n");
+    scanf("%s", cat_name);
+    strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
+    if((fevent=fopen("Events.txt", "r"))!=0)
+    {
+        while(fscanf(fevent, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+
+            if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0)
+            {
+                count++;
+                n=strlen(ev.name);
+                for(i=0; i<n; i++)
+                    if(ev.name[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.name[i]);
+                printf(" ");
+
+                n=strlen(ev.desc);
+                for(i=0; i<n; i++)
+                    if(ev.desc[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.desc[i]);
+                printf(" ");
+                n=strlen(ev.loc);
+                for(i=0; i<n; i++)
+                    if(ev.loc[i]=='/')
+                        printf(" ");
+                    else
+                        printf("%c",ev.loc[i]);
+                printf(" ");
+                printf("%s ",ev.cat);
+                printf("%s ",ev.date);
+                printf("%s",ev.time);
+                printf("\n");
+                printf("Do you want chose option comment?\n");
+                printf("YES[Y] or BACK[B]\n");
+                scanf(" %c",&guest_choice);
+                if(guest_choice=='Y')
+                    view_event_details();
+            }
+        if(count==0)
+            printf("\nThere is no future events!\n\n");
+
+    }
+    fclose(fevent);
+
+}
+
+
+
 
