@@ -11,7 +11,7 @@ void delete_event()
             printf("Name the event you wish to delete ");
             scanf("%s", temp);
             while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
-                if(strcmp(name,temp)==0)
+                if(strcmp(name,temp) == 0)
                 {
                     if(fp2=fopen("Replica.txt", "w"))
                 {
