@@ -17,6 +17,14 @@ typedef struct event
     char id[6];//5-character id of the event
 } EVENT;
 
+typedef struct{
+    char question[51];
+    char ans1[31];
+    char ans2[31];
+    char ans3[31];
+    char true_answ[2];
+} QUIZ;
+
 int admin_login();
 int checking_login(char*, char*, FILE*);
 void add_event();
@@ -746,12 +754,81 @@ void events_by_category()
 
 
 
+
 void quiz()
 {
+   FILE *fp;
+   QUIZ temp;
+   int n, i, count=0;
+   char quiz_answ[2];
+if((fp=fopen("Quiz.txt", "r"))!=0)
+    {
+        while(fscanf(fp, "%s %s %s %s %s", temp.question, temp.ans1, temp.ans2, temp.ans3, temp.true_answ)!=EOF)
+        {
+            printf("\n");
+
+                 n=strlen(temp.question);
+            for(i=0; i<n; i++)
+                if(temp.question[i]=='/')
+                    printf(" ");
+                else
+                    printf("%c",temp.question[i]);
+            printf(" ");
+            printf("\n");
+
+            n=strlen(temp.ans1);
+            for(i=0; i<n; i++)
+                if(temp.ans1[i]=='/')
+                    printf(" ");
+                else
+                    printf("%c",temp.ans1[i]);
+            printf(" ");
+            printf("\n");
+
+            n=strlen(temp.ans2);
+            for(i=0; i<n; i++)
+                if(temp.ans2[i]=='/')
+                    printf(" ");
+                else
+                    printf("%c",temp.ans2[i]);
+            printf(" ");
+            printf("\n");
+
+            n=strlen(temp.ans3);
+            for(i=0; i<n; i++)
+                if(temp.ans3[i]=='/')
+                    printf(" ");
+                else
+                    printf("%c",temp.ans3[i]);
+            printf(" ");
+
+            printf("\n\n");
+
+            printf("Answer: ");
+             scanf(" %s", &quiz_answ);
+   if(strcmp(quiz_answ,temp.true_answ)==0)
+    {
+        printf ("\nYour answer is true!\n");
+        count++;
+    }
+    else
+        printf("\nYour anser is wrong. True answer is %s\n", temp.true_answ );
+
+        }
+       fclose(fp);
+    }
+
+    if(count<=3)
+        printf ("You have %d true answers. Bad knowledge of Rotterdam!\n", count);
+    else if (count>3 && count<=7)
+        printf("You have %d true answers. Medium knowledge of Rotterdam!\n", count);
+    else
+        printf ("You have %d true answers. Excellent knowledge of Rotterdam!\n", count);
+
+        printf ("\n");
+
 
 }
-
-
 
 
 void view_event_details()
