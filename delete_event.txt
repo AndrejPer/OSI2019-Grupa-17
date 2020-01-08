@@ -5,29 +5,32 @@ void delete_event()
 
     if(fp1=fopen("Events.txt", "r"))
     {
-        while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
+        while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme) != EOF)
             printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
+
         rewind(fp1);
-            printf("Name the event you wish to delete ");
-            scanf("%s", temp);
-            while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
-                if(strcmp(name,temp) == 0)
-                {
-                    if(fp2=fopen("Replica.txt", "w"))
+
+        printf("Name the event you wish to delete ");
+        scanf("%s", temp);
+
+        while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme) != EOF)
+            if(strcmp(name,temp) == 0)
+            {
+                if(fp2=fopen("Replica.txt", "w"))
                 {
                     rewind(fp1);
                     while(fscanf(fp1, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
                         if(strcmp(name, temp)!=0)
-                        fprintf(fp2, "%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
+                            fprintf(fp2, "%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
 
-                fclose(fp2);
+                    fclose(fp2);
                 }
-                }
+            }
         fclose(fp1);
-        }
-        remove("Events.txt");
-        rename("Replica.txt", "Events.txt");
-        if(fp2=fopen("Events.txt", "r"))
+    }
+    remove("Events.txt");
+    rename("Replica.txt", "Events.txt");
+    if(fp2=fopen("Events.txt", "r"))
         while(fscanf(fp2, "%s %s %s %s %s %s", name, opis, lok, kategorija, datum, vrijeme)!=EOF)
             printf("%s %s %s %s %s %s\n", name, opis, lok, kategorija, datum, vrijeme);
 
