@@ -38,6 +38,7 @@ void add_category();
 void list_categories();
 void change_event_details();
 void view_events();
+void print_category(char *);
 void guest_view_events(int);
 void events_by_category();
 void quiz();
@@ -246,38 +247,57 @@ void view_events()
     FILE *fp;
     EVENT pom;
     int n,i;
-    if((fp=fopen("Events.txt", "r"))!=0)
+    if((fp=fopen("events_test.txt", "r"))!=0)
     {
         while(fscanf(fp, "%s %s %s %s %s %s", pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
         {
             n=strlen(pom.name);
+            printf("EVENT NAME: ");
             for(i=0; i<n; i++)
                 if(pom.name[i]=='/')
                     printf(" ");
                 else printf("%c",pom.name[i]);
             printf(" ");
 
+            printf("\n");
+
              n=strlen(pom.desc);
+             printf("EVENT DETAILS: ");
             for(i=0; i<n; i++)
                 if(pom.desc[i]=='/')
                     printf(" ");
                 else
                     printf("%c",pom.desc[i]);
             printf(" ");
+
+            printf("\n");
+
              n=strlen(pom.loc);
+             printf("EVENT LOCATION: ");
             for(i=0; i<n; i++)
                 if(pom.loc[i]=='/')
                     printf(" ");
                 else printf("%c",pom.loc[i]);
-            printf(" ");
-            printf("%s ",pom.cat);
-            printf("%s ",pom.date);
-            printf("%s",pom.time);
+            printf(" ");printf("\n");
+            printf("EVENT CATEGORY: "); print_category(pom.cat);   printf("\n");
+            printf("EVENT DATE: "); printf("%s ",pom.date);printf("\n");
+            printf("EVENT TIME: "); printf("%s",pom.time);printf("\n");
             printf("\n");
         }
         fclose(fp);
     }
 }
+
+void print_category(char *catID)
+{
+    FILE* fcat = 0;
+    char cat_name[15] = {0}, cat_id[6] = {0};
+    if((fcat = fopen("Categories.txt", "r"))!= 0)
+        while(fscanf(fcat, "%s %s", cat_name, cat_id) != EOF)
+            if(strcmp(catID, cat_id) == 0) printf("%s ", cat_name);
+    fclose(fcat);
+}
+
 /*
 void add_event()
 {
