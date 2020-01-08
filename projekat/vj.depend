@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1578166649 source:c:\users\win10\documents\druga godina\osi2019-grupa-17\projekat\main.c
+1578499651 source:c:\users\win10\documents\druga godina\osi2019-grupa-17\projekat\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<time.h>
 

@@ -27,6 +27,7 @@ void sort_by_alphabet();
 void sort_oldest_date();
 void delete_category();
 void add_category();
+void list_categories();
 void change_event_details();
 void view_events();
 void guest_view_events(int);
@@ -187,7 +188,7 @@ int admin_login()
     //this is the file where the login data is stored
     char usern[30], pass[30];
     //string for collecting username and password
-    int a = 0, attempts = 0;//attempts = 3;
+    int a = 0, attempts = 3;
 
     do
     {
@@ -685,23 +686,23 @@ void add_category()
     while(response != 'N');
 }
 
-
-
 void guest_view_events(int flag)
 {
 
 }
-void list_categories(FILE* fcat)
+void list_categories()
 {
+    FILE* fcat = 0;
     char cat_name[15] = {0}, cat_id[6] = {0};
-    if((fcat=fopen("Categories.txt", "r"))!=0)
-        while(fscanf(fcat, "%s %s", cat_name, cat_id)!=EOF)
+    if((fcat = fopen("Categories.txt", "r"))!= 0)
+        while(fscanf(fcat, "%s %s", cat_name, cat_id) != EOF)
             printf("%s %s\n", cat_id, cat_name);
+    fclose(fcat);
 }
 
 void events_by_category()
 {
-    FILE *fcat, *fevent;
+    FILE *fevent;
     EVENT ev;
     int count=0;
     char cat_name[20], view_choice;
@@ -709,14 +710,14 @@ void events_by_category()
     scanf(" %c", &view_choice);
     if(view_choice=='E')
     {
-        list_categories(fcat);
-        printf("Izaberite kategoriju!\n");
+        list_categories();
+        printf("Choose a category!\n");
         scanf("%s", cat_name);
-        if((fevent=fopen("Events.txt", "r"))!=0)
+        if((fevent=fopen("Events.txt", "r")) != 0)
         {
             while(fscanf(fevent, "%s %s %s %s %s %s", ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
 
-                if(strcmp(cat_name, ev.cat)==0)
+                if(strcmp(cat_name, ev.cat) == 0)
                 {
                     count++;
                     printf("%s ",ev.name);
@@ -848,7 +849,7 @@ void comment()
 
 void view_todays_events()
 {
-    FILE *fevent, *fcat;
+    FILE *fevent;
     EVENT ev;
     int count=0, i, n;
     char cat_name[20];
@@ -858,7 +859,7 @@ void view_todays_events()
     t=time(NULL);
     tm = localtime(&t);
     strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
-    list_categories(fcat);
+    list_categories();
     printf("Izaberite kategoriju!\n");
     scanf("%s", cat_name);
     if((fevent=fopen("Events.txt", "r"))!=0)
@@ -910,7 +911,7 @@ void view_todays_events()
 
 void view_past_events()
 {
-    FILE *fevent, *fcat;
+    FILE *fevent;
     EVENT ev;
     int count=0, n, i;
     struct tm *tm;
@@ -918,7 +919,7 @@ void view_past_events()
     char str_date[100], cat_name[20], guest_choice;
     t=time(NULL);
     tm = localtime(&t);
-    list_categories(fcat);
+    list_categories();
     printf("Izaberite kategoriju!\n");
     scanf("%s", cat_name);
     strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
@@ -969,7 +970,7 @@ void view_past_events()
 
 void view_future_events()
 {
-    FILE *fevent, *fcat;
+    FILE *fevent;
     EVENT ev;
     int count=0, i, n;
     struct tm *tm;
@@ -977,7 +978,7 @@ void view_future_events()
     char str_date[100], cat_name[20], guest_choice;
     t=time(NULL);
     tm = localtime(&t);
-    list_categories(fcat);
+    list_categories();
     printf("Izaberite kategoriju!\n");
     scanf("%s", cat_name);
     strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
