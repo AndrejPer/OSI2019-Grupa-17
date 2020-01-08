@@ -1,0 +1,10 @@
+1./What/is/the/name/of/the/airport/in/Rotterdam? //[a]/Van/Gogh //[b]/Welschap //[c]/Rotterdam/The/Hague c
+2./Rotterdam/is/the/capital/of/the/Netherlands. //[a]/True //[b]/False //[c]/I/don't/know b
+3./What/is/the/official/name/of/the/only/zoo/in/Rotterdam? //[a]/Diergaarde/Blijdorp //[b]/Rotterdam/Zoo //[c]/Animal/Parc/Emmen b
+4./What's/the/name/of/the/biggest/carnival/in/Rotterdam? //[a]/Solero/Summer/Carnival //[b]/Fast/Forward/Dance/Parade //[c]/Rotterdam/Summer/Parade a
+5./How/many/people/live/in/Rotterdam? //[a]/599/859 //[b]/500/000 //[c]/965/021 a
+6./How/many/subway-stations/does/Rotterdam/have? //[a]/Less/than/30 //[b]/37 //[c]/Over/40 c
+7./What/is/the/name/of/the/university/in/Rotterdam? //[a]/Harvard/University //[b]/Stanford/University //[c]/Erasmus/University c
+8./How/the/name/of/Rotterdam/was/derived? //[a]/The/mountain/Rotte //[b]/The/lake/Rotte //[c]/The/river/Rotte c
+9./What/are/the/colors/of/the/Rotterdam/flag? //[a]/Green-white-green //[b]/Red-white-red //[c]/Blue-white-blue a
+10./Rotterdam/is/the/city/in/which/province? //[a]/South/Holland //[b]/North/Holland //[c]/Zeeland a
