@@ -578,7 +578,7 @@ void delete_event()
         printf("List of all events:\n\n");
         while(fscanf(fp1, "%s %s %s %s %s %s %s",pom.id, pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
         {
-            ispis(pom);
+            write(pom);
             m++;
         }
         rewind(fp1);
@@ -739,7 +739,7 @@ void change_event_details()
         printf("List of all events:\n\n");
         while(fscanf(fp1, "%s %s %s %s %s %s %s",pom.id, pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
         {
-           ispis(pom);
+           write(pom);
             m++;
         }
         rewind(fp1);
@@ -1122,7 +1122,7 @@ void list_categories(FILE* fcat)
 }
 void events_by_category()
 {
-    FILE *fevent;
+    FILE *fevent,*fcat=0;
     EVENT ev;
     int count=0;
     char cat_name[20], view_choice;
@@ -1130,7 +1130,7 @@ void events_by_category()
     scanf(" %c", &view_choice);
     if(view_choice=='E')
     {
-        list_categories();
+        list_categories(fcat);
         printf("Choose a category!\n");
         scanf("%s", cat_name);
         if((fevent=fopen("Events.txt", "r")) != 0)
@@ -1331,14 +1331,14 @@ void view_todays_events()
     FILE *fevent,*fcat=0;
     EVENT ev;
     int count=0,a=0;
-    char cat_name[20];
+    char cat_name[20],id[6];
     struct tm *tm;
     time_t t;
     char str_date[100], guest_choice;
     t=time(NULL);
     tm = localtime(&t);
     strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
-    list_categories();
+    list_categories(fcat);
     printf("Izaberite kategoriju!\n");
     scanf("%s", cat_name);
     printf("\n");
@@ -1366,7 +1366,7 @@ void view_todays_events()
             while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
                 if(strcmp(str_date, ev.date)==0 && strcmp(cat_name, ev.cat)==0 && (strcmp(id,ev.id)==0))
                     {
-                        ispis(ev);
+                        write(ev);
                         a++;
                     }
         }
@@ -1392,10 +1392,10 @@ void view_past_events()
     int count=0,a=0;
     struct tm *tm;
     time_t t;
-    char str_date[100], cat_name[20], guest_choice;
+    char str_date[100], cat_name[20], guest_choice,id[6];
     t=time(NULL);
     tm = localtime(&t);
-    list_categories();
+    list_categories(fcat);
     printf("Izaberite kategoriju!\n");
     scanf("%s", cat_name);
     printf("\n");
@@ -1427,7 +1427,7 @@ void view_past_events()
                         while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
                             if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id,ev.id)==0))
                             {
-                                ispis(ev);
+                                write(ev);
                                 a++;
                             }
                     }
@@ -1442,15 +1442,15 @@ void view_past_events()
 
 void view_future_events()
 {
-    FILE *fevent;
+    FILE *fevent,*fcat=0;
     EVENT ev;
     int count=0;
     struct tm *tm;
     time_t t;
-    char str_date[100], cat_name[20], guest_choice;
+    char str_date[100], cat_name[20], guest_choice,id[6];
     t=time(NULL);
     tm = localtime(&t);
-    list_categories();
+    list_categories(fcat);
     printf("Izaberite kategoriju!\n");
     scanf("%s", cat_name);
     printf("\n");
@@ -1473,7 +1473,7 @@ void view_future_events()
                 scanf(" %c",&guest_choice);
                 if(guest_choice=='Y')
                 {
-                    char  id[50];
+
          int a=0;
         if((fevent=fopen("Events.txt", "r"))!=0)
         {
@@ -1485,7 +1485,7 @@ void view_future_events()
             while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
                 if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0 && (strcmp(id,ev.id)==0))
                     {
-                        ispis(ev);
+                        write(ev);
                         a++;
                     }
         }
