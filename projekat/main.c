@@ -17,7 +17,8 @@ typedef struct event
     char id[6];//5-character id of the event
 } EVENT;
 
-typedef struct{
+typedef struct
+{
     char question[51];
     char ans1[31];
     char ans2[31];
@@ -254,21 +255,23 @@ void view_events()
             for(i=0; i<n; i++)
                 if(pom.name[i]=='/')
                     printf(" ");
-                else printf("%c",pom.name[i]);
+                else
+                    printf("%c",pom.name[i]);
             printf(" ");
 
-             n=strlen(pom.desc);
+            n=strlen(pom.desc);
             for(i=0; i<n; i++)
                 if(pom.desc[i]=='/')
                     printf(" ");
                 else
                     printf("%c",pom.desc[i]);
             printf(" ");
-             n=strlen(pom.loc);
+            n=strlen(pom.loc);
             for(i=0; i<n; i++)
                 if(pom.loc[i]=='/')
                     printf(" ");
-                else printf("%c",pom.loc[i]);
+                else
+                    printf("%c",pom.loc[i]);
             printf(" ");
             printf("%s ",pom.cat);
             printf("%s ",pom.date);
@@ -757,17 +760,17 @@ void events_by_category()
 
 void quiz()
 {
-   FILE *fp;
-   QUIZ temp;
-   int n, i, count=0;
-   char quiz_answ[2];
-if((fp=fopen("Quiz.txt", "r"))!=0)
+    FILE *fp;
+    QUIZ temp;
+    int n, i, count=0;
+    char quiz_answ[2];
+    if((fp=fopen("Quiz.txt", "r"))!=0)
     {
         while(fscanf(fp, "%s %s %s %s %s", temp.question, temp.ans1, temp.ans2, temp.ans3, temp.true_answ)!=EOF)
         {
             printf("\n");
 
-                 n=strlen(temp.question);
+            n=strlen(temp.question);
             for(i=0; i<n; i++)
                 if(temp.question[i]=='/')
                     printf(" ");
@@ -805,17 +808,17 @@ if((fp=fopen("Quiz.txt", "r"))!=0)
             printf("\n\n");
 
             printf("Answer: ");
-             scanf(" %s", &quiz_answ);
-   if(strcmp(quiz_answ,temp.true_answ)==0)
-    {
-        printf ("\nYour answer is true!\n");
-        count++;
-    }
-    else
-        printf("\nYour anser is wrong. True answer is %s\n", temp.true_answ );
+            scanf(" %s", &quiz_answ);
+            if(strcmp(quiz_answ,temp.true_answ)==0)
+            {
+                printf ("\nYour answer is true!\n");
+                count++;
+            }
+            else
+                printf("\nYour anser is wrong. True answer is %s\n", temp.true_answ );
 
         }
-       fclose(fp);
+        fclose(fp);
     }
 
     if(count<=3)
@@ -825,7 +828,7 @@ if((fp=fopen("Quiz.txt", "r"))!=0)
     else
         printf ("You have %d true answers. Excellent knowledge of Rotterdam!\n", count);
 
-        printf ("\n");
+    printf ("\n");
 
 
 }
@@ -858,20 +861,23 @@ void view_event_details()
                         for(i=0; i<n; i++)
                             if(pom.name[i]=='/')
                                 printf(" ");
-                            else printf("%c",pom.name[i]);
+                            else
+                                printf("%c",pom.name[i]);
                         printf(" ");
 
                         n=strlen(pom.desc);
                         for(i=0; i<n; i++)
                             if(pom.desc[i]=='/')
                                 printf(" ");
-                            else printf("%c",pom.desc[i]);
+                            else
+                                printf("%c",pom.desc[i]);
                         printf(" ");
                         n=strlen(pom.loc);
                         for(i=0; i<n; i++)
                             if(pom.loc[i]=='/')
                                 printf(" ");
-                            else printf("%c",pom.loc[i]);
+                            else
+                                printf("%c",pom.loc[i]);
                         printf(" ");
                         printf("%s ",pom.cat);
                         printf("%s ",pom.date);
