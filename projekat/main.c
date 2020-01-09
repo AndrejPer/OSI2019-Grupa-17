@@ -115,7 +115,7 @@ int main()
                         else if(admin_choice != 'B')
                         {
                             printf("Unknown option!");
-                            //getchar();
+                            getchar();
                         }
 
                     }
@@ -165,7 +165,7 @@ int main()
                     else if(guest_choice != 'F')
                     {
                         printf("Unknown option!\n");
-                        //getchar();
+                        getchar();
                     }
 
                 }
@@ -282,7 +282,6 @@ void view_events()
                 else
                     printf("%c",pom.name[i]);
             printf(" ");
-
             printf("\n");
 
             n=strlen(pom.desc);
@@ -293,9 +292,10 @@ void view_events()
                 else
                     printf("%c",pom.desc[i]);
             printf(" ");
-
             printf("\n");
 
+            printf("EVENT CATEGORY: %s\n ",pom.cat);
+//            print_category(pom.cat);
             n=strlen(pom.loc);
             printf("EVENT LOCATION: ");
             for(i=0; i<n; i++)
@@ -304,9 +304,6 @@ void view_events()
                 else
                     printf("%c",pom.loc[i]);
             printf(" ");
-            printf("\n");
-            printf("EVENT CATEGORY: ");
-            print_category(pom.cat);
             printf("\n");
             printf("EVENT DATE: ");
             printf("%s ",pom.date);
@@ -369,40 +366,49 @@ void print_category(char *catID)
     fclose(fcat);
 }
 
-void write(EVENT ev)
+void write(EVENT pom)
 {
     int i,n;
-    printf("ID:\n%s\n",ev.id);
-    printf("Name:\n");
-    n=strlen(ev.name);
-    for(i=0; i<n; i++)
-        if(ev.name[i]=='/')
+     printf("EVENT ID: %s\n", pom.id);
+            n=strlen(pom.name);
+            printf("EVENT NAME: ");
+            for(i=0; i<n; i++)
+                if(pom.name[i]=='/')
+                    printf(" ");
+                else
+                    printf("%c",pom.name[i]);
             printf(" ");
-        else
-            printf("%c",ev.name[i]);
-    printf("\n");
-    printf("Description:\n");
-    n=strlen(ev.desc);
-    for(i=0; i<n; i++)
-        if(ev.desc[i]=='/')
+
+            printf("\n");
+
+            n=strlen(pom.desc);
+            printf("EVENT DETAILS: ");
+            for(i=0; i<n; i++)
+                if(pom.desc[i]=='/')
+                    printf(" ");
+                else
+                    printf("%c",pom.desc[i]);
             printf(" ");
-        else
-            printf("%c",ev.desc[i]);
-    printf("\n");
-    printf("Category:\n%s \n",ev.cat);
-    // printf("%s \n",pom.cat);
-    printf("Location:\n");
-    n=strlen(ev.loc);
-    for(i=0; i<n; i++)
-        if(ev.loc[i]=='/')
+            printf("\n");
+            printf("EVENT CATEGORY: ");
+            printf("%s\n",pom.cat);
+//            print_category(pom.cat);
+            n=strlen(pom.loc);
+            printf("EVENT LOCATION: ");
+            for(i=0; i<n; i++)
+                if(pom.loc[i]=='/')
+                    printf(" ");
+                else
+                    printf("%c",pom.loc[i]);
             printf(" ");
-        else
-            printf("%c",ev.loc[i]);
-    printf("\n");
-    printf("Time and Date:\n");
-    printf("%s ",ev.date);
-    printf("%s",ev.time);
-    printf("\n\n");
+            printf("\n");
+            printf("EVENT DATE: ");
+            printf("%s ",pom.date);
+            printf("\n");
+            printf("EVENT TIME: ");
+            printf("%s",pom.time);
+            printf("\n");
+            printf("\n");
 }
 /*
 void add_event()
@@ -587,7 +593,12 @@ void add_event()
     remove("Events.txt");
     rename("new.txt","Events.txt");
     printf("\nList of events after adding:\n\n");
-    view_events();
+    if((fp1=fopen("Events.txt","r"))!=0)
+    {
+                    while(fscanf(fp1, " %s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                    write(ev);
+                    fclose(fp1);
+    }
     free(temp);
 }
 /*
@@ -637,7 +648,7 @@ void delete_event()
 void delete_event()
 {
     FILE *fp1, *fp2;
-    EVENT pom;
+    EVENT pom,ev;
     char temp[20];
     int j=0, m=0;
     if((fp1=fopen("Events.txt", "r"))!=0)
@@ -670,7 +681,12 @@ void delete_event()
                 rename("Replica.txt", "Events.txt");
 
                 printf("\nList of events after deletin:\n\n");
-                view_events();
+                 if((fp1=fopen("Events.txt","r"))!=0)
+    {
+                    while(fscanf(fp1, " %s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                    write(ev);
+                    fclose(fp1);
+    }
             }
             else
             {
@@ -797,7 +813,7 @@ void change_event_details()
 void change_event_details()
 {
     FILE *fp1, *fp2,*fp3;
-    EVENT pom,*temp;
+    EVENT pom,*temp,ev;
     temp=malloc(sizeof(EVENT));
     char change_event[41],admin_choice;
     int m=0,j=0;
@@ -910,7 +926,12 @@ void change_event_details()
                 rename("Change.txt", "Events.txt");
 
                 printf("\nList of events :\n\n");
-                view_events();
+                 if((fp1=fopen("Events.txt","r"))!=0)
+    {
+                    while(fscanf(fp1, " %s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                    write(ev);
+                    fclose(fp1);
+    }
             }
             else
             {
@@ -1370,11 +1391,11 @@ void list_categories()
 
 void list_categories(FILE* fcat)
 {
-    char cat_name[15] = {0}, cat_id[15]= {0};
+    char cat_name[30] = {0};
     if((fcat=fopen("Categories.txt", "r"))!=0)
     {
-        while(fscanf(fcat, "%s %s", cat_name, cat_id)!=EOF)
-            printf("%s %s\n", cat_name, cat_id);
+        while(fscanf(fcat, "%s", cat_name)!=EOF)
+            printf("%s \n", cat_name);
         fclose(fcat);
     }
 }
