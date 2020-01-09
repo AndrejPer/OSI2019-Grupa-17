@@ -48,152 +48,157 @@ void quiz();
 void view_event_details();
 void comment( char*);
 void list_categories(FILE *);
+int choose_city();
+void print_category();
+
 
 int main()
 {
-    char account = 0;
-
-    printf("Welcome! Let's explore!\n");
-
-    do
+    static char account=0;
+    int a=choose_city();
+    if(a)
     {
-        printf("\nHow are you logging in? (type 0 to exit)\n");
-        printf("Admin [A] or Guest [G]: \n");
-        scanf(" %c", &account);
-        //printf("%c", account);
+        printf("Welcome! Let's explore!\n");
 
-        if(account == 'A')
+        do
         {
-            int p = 0;
-            //p is used as a flag for (in)correct login data, 0 for incorrect
+            printf("\nHow are you logging in? (type 0 to exit)\n");
+            printf("Admin [A] or Guest [G]: \n");
+            scanf(" %c", &account);
+            //printf("%c", account);
 
-            p = admin_login();
-
-            if(p)
+            if(account == 'A')
             {
-                printf("Successful login!\n");
+                int p = 0;
+                //p is used as a flag for (in)correct login data, 0 for incorrect
 
-                char admin_choice = 'B';
-                //for registering admin's choice
+                p = admin_login();
+
+                if(p)
+                {
+                    printf("\nSuccessful login!\n");
+
+                    char admin_choice = 'B';
+                    //for registering admin's choice
+
+                    do
+                    {
+                        printf("\nWhat would you like to do?\n");
+                        printf("\tAdd event [A]\n");
+                        printf("\tChange event details [C]\n");
+                        printf("\tDelete event [D]\n");
+                        printf("\tView events [V]\n");
+                        printf("\tView sorted events [S]\n");
+                        printf("\tDelete event category [E]\n");
+                        printf("\tAdd event category [T]\n");
+                        printf("\tBack [B]\n");
+
+                        scanf(" %c", &admin_choice);
+
+                        if (admin_choice == 'A')
+                            add_event();
+
+                        else if(admin_choice == 'C')
+                            change_event_details();
+
+                        else if(admin_choice == 'D')
+                            delete_event();
+
+                        else if(admin_choice == 'V')
+                            view_events();
+
+                        else if(admin_choice=='S')
+                        {
+                            char sort_choice = 0;
+                            printf("\nHow would you like to sort?\n");
+                            printf("\tSort by newest date [N]\n");
+                            printf("\tSort by oldest date [O]\n");
+                            printf("\tSort by alphabet [A]\n");
+                            scanf("%s", &sort_choice);
+                            if(sort_choice=='N')
+                                sort_newest_date();
+                            if(sort_choice=='A')
+                                sort_by_alphabet();
+                            if(sort_choice=='O')
+                                sort_oldest_date();
+                        }
+
+                        else if(admin_choice == 'E')
+                            delete_category();
+
+                        else if(admin_choice == 'T')
+                            add_category();
+
+                        else if(admin_choice != 'B')
+                        {
+                            printf("Unknown option!");
+                            //getchar();
+                        }
+
+                    }
+                    while(admin_choice != 'B');
+                }
+
+                else
+                {
+                    printf("\nFailed login!\n");
+                }
+
+            }
+
+
+            else if (account == 'G')
+            {
+                char guest_choice = 'F';
+                //for registering guest's choice
 
                 do
                 {
-                    printf("\nWhat would you like to do?\n");
-                    printf("\tAdd event [A]\n");
-                    printf("\tChange event details [C]\n");
-                    printf("\tDelete event [D]\n");
-                    printf("\tView events [V]\n");
-                    printf("\tSort events [S]\n");
-                    printf("\tDelete event category [E]\n");
-                    printf("\tAdd event category [T]\n");
-                    printf("\tBack [B]\n");
+                    printf("What would you like to do?\n");
+                    printf("\tView today's events [A]\n");
+                    printf("\tView past events [B]\n");
+                    printf("\tView future event [C]\n");
+                    printf("\tView events by category [D]\n");
+                    printf("\tPlay the quiz [E]\n");
+                    printf("\tBack [F]\n");
 
-                    scanf(" %c", &admin_choice);
+                    scanf(" %c", &guest_choice);
 
-                    if (admin_choice == 'A')
-                        add_event();
+                    if(guest_choice == 'A')
+                        view_todays_events();
 
-                    else if(admin_choice == 'C')
-                        change_event_details();
+                    else if(guest_choice == 'B')
+                        view_past_events();
 
-                    else if(admin_choice == 'D')
-                        delete_event();
+                    else if(guest_choice == 'C')
+                        view_future_events();
 
-                    else if(admin_choice == 'V')
-                        view_events();
+                    else if(guest_choice == 'D')
+                        events_by_category();
 
-                    else if(admin_choice=='S')
+                    else if(guest_choice == 'E')
+                        quiz();
+
+                    else if(guest_choice != 'F')
                     {
-                        char sort_choice = 0;
-                        printf("\nHow would you like to sort?\n");
-                        printf("\tSort by newest date [N]\n");
-                        printf("\tSort by oldest date [O]\n");
-                        printf("\tSort by alphabet [A]\n");
-                        scanf("%s", &sort_choice);
-                        if(sort_choice=='N')
-                            sort_newest_date();
-                        if(sort_choice=='A')
-                            sort_by_alphabet();
-                        if(sort_choice=='O')
-                            sort_oldest_date();
-                    }
-
-                    else if(admin_choice == 'E')
-                        delete_category();
-
-                    else if(admin_choice == 'T')
-                        add_category();
-
-                    else if(admin_choice != 'B')
-                    {
-                        printf("Unknown option!");
+                        printf("Unknown option!\n");
                         //getchar();
                     }
 
                 }
-                while(admin_choice != 'B');
+                while(guest_choice != 'F');
             }
 
-            else
+            else if (account != '0' && account != 'A');//for some weird reason
             {
-                printf("\nFailed login!\n");
+                printf("Unknown option!\n");
+                getchar(); //might be needed
             }
-
         }
-
-
-        else if (account == 'G')
-        {
-            char guest_choice = 'F';
-            //for registering guest's choice
-
-            do
-            {
-                printf("What would you like to do?\n");
-                printf("\tView today's events [A]\n");
-                printf("\tView past events [B]\n");
-                printf("\tView future event [C]\n");
-                printf("\tView events by category [D]\n");
-                printf("\tPlay the quiz [E]\n");
-                printf("\tBack [F]\n");
-
-                scanf(" %c", &guest_choice);
-
-                if(guest_choice == 'A')
-                    view_todays_events();
-                    //guest_view_events(1);
-
-                else if(guest_choice == 'B')
-                    view_past_events()
-                    //guest_view_events(0);
-
-                else if(guest_choice == 'C')
-                    view_future_events();
-                    //guest_view_events(2);
-
-                else if(guest_choice == 'D')
-                    events_by_category();
-
-                else if(guest_choice == 'E')
-                    quiz();
-
-                else if(guest_choice != 'F')
-                {
-                    printf("Unknown option!\n");
-                    //getchar();
-                }
-
-            }
-            while(guest_choice != 'F');
-        }
-
-        else if (account != '0' && account != 'A');//for some weird reason
-        {
-            printf("Unknown option!\n");
-            getchar(); //might be needed
-        }
+        while(account != '0');
     }
-    while(account != '0');
+    else
+        printf("There is no events for that city!\n");
 
     return 0;
 }
@@ -202,35 +207,59 @@ int admin_login()
 {
     FILE *facc = fopen("Accounts.txt", "r");
     //this is the file where the login data is stored
-    char usern[30], pass[30];
+    char usern[30], pass[30], ch;
     //string for collecting username and password
-    int a = 0, attempts = 3;
+    int  attempts=3, a=0, i=0;
 
     do
     {
         printf("Username: ");
         scanf(" %s", usern);
         printf("Password: ");
-        scanf(" %s", pass);
+        while( (ch=getch())!= '\r')
+        {
+            if(ch==ENTER || ch==TAB)
+            {
+                pass[i]=0;
+                break;
+            }
+            else if(ch==BKSP)
+            {
+                if(i>0)
+                    i--;
+                printf("\b \b");
+            }
+            else
+            {
+                pass[i++] = ch;
+                printf("*");
+                pass[i]=0;
+            }
+        }
+        //printf("Password: ");
+        //scanf(" %s", pass);
         a = checking_login(usern, pass, facc);
 
         if(!a)
-            printf("\nIncorrect user-name or password.\n");
+            printf("\nIncorrect username of password.\n");
 
         else
         {
-            printf("Logging in...\n\n");
+            printf("\nLoging in...\n\n");
             printf("Welcome %s", usern);//username
         }
 
     }
-    while(!a && --attempts >= 0);
-    fclose(facc);
+    while(!a && --attempts > 0);
+
     return a;
 }
 
+
+
 int checking_login(char username[], char password[], FILE *fp)
 {
+    rewind(fp);
     char temp_username[20],  temp_password[20];
     while (fscanf(fp, "%s %s",temp_username, temp_password )!=EOF)
     {
@@ -263,13 +292,14 @@ void view_events()
             for(i=0; i<n; i++)
                 if(pom.name[i]=='/')
                     printf(" ");
-                else printf("%c",pom.name[i]);
+                else
+                    printf("%c",pom.name[i]);
             printf(" ");
 
             printf("\n");
 
-             n=strlen(pom.desc);
-             printf("EVENT DETAILS: ");
+            n=strlen(pom.desc);
+            printf("EVENT DETAILS: ");
             for(i=0; i<n; i++)
                 if(pom.desc[i]=='/')
                     printf(" ");
@@ -279,16 +309,24 @@ void view_events()
 
             printf("\n");
 
-             n=strlen(pom.loc);
-             printf("EVENT LOCATION: ");
+            n=strlen(pom.loc);
+            printf("EVENT LOCATION: ");
             for(i=0; i<n; i++)
                 if(pom.loc[i]=='/')
                     printf(" ");
-                else printf("%c",pom.loc[i]);
-            printf(" ");printf("\n");
-            printf("EVENT CATEGORY: "); print_category(pom.cat);   printf("\n");
-            printf("EVENT DATE: "); printf("%s ",pom.date);printf("\n");
-            printf("EVENT TIME: "); printf("%s",pom.time);printf("\n");
+                else
+                    printf("%c",pom.loc[i]);
+            printf(" ");
+            printf("\n");
+            printf("EVENT CATEGORY: ");
+            print_category(pom.cat);
+            printf("\n");
+            printf("EVENT DATE: ");
+            printf("%s ",pom.date);
+            printf("\n");
+            printf("EVENT TIME: ");
+            printf("%s",pom.time);
+            printf("\n");
             printf("\n");
         }
         fclose(fp);
@@ -301,42 +339,45 @@ void print_category(char *catID)
     char cat_name[15] = {0}, cat_id[6] = {0};
     if((fcat = fopen("Categories.txt", "r"))!= 0)
         while(fscanf(fcat, "%s %s", cat_name, cat_id) != EOF)
-            if(strcmp(catID, cat_id) == 0) printf("%s ", cat_name);
+            if(strcmp(catID, cat_id) == 0)
+                printf("%s ", cat_name);
     fclose(fcat);
 }
 
 void write(EVENT ev)
 {
     int i,n;
-     printf("ID:\n%s\n",ev.id);
-                printf("Name:\n");
-                n=strlen(ev.name);
-                for(i=0; i<n; i++)
-                    if(ev.name[i]=='/')
-                        printf(" ");
-                    else printf("%c",ev.name[i]);
-                printf("\n");
-                printf("Description:\n");
-                n=strlen(ev.desc);
-                for(i=0; i<n; i++)
-                    if(ev.desc[i]=='/')
-                        printf(" ");
-                    else
-                        printf("%c",ev.desc[i]);
-                printf("\n");
-                printf("Category:\n%s \n",ev.cat);
-                // printf("%s \n",pom.cat);
-                printf("Location:\n");
-                n=strlen(ev.loc);
-                for(i=0; i<n; i++)
-                    if(ev.loc[i]=='/')
-                        printf(" ");
-                    else printf("%c",ev.loc[i]);
-                printf("\n");
-                printf("Time and Date:\n");
-                printf("%s ",ev.date);
-                printf("%s",ev.time);
-                printf("\n\n");
+    printf("ID:\n%s\n",ev.id);
+    printf("Name:\n");
+    n=strlen(ev.name);
+    for(i=0; i<n; i++)
+        if(ev.name[i]=='/')
+            printf(" ");
+        else
+            printf("%c",ev.name[i]);
+    printf("\n");
+    printf("Description:\n");
+    n=strlen(ev.desc);
+    for(i=0; i<n; i++)
+        if(ev.desc[i]=='/')
+            printf(" ");
+        else
+            printf("%c",ev.desc[i]);
+    printf("\n");
+    printf("Category:\n%s \n",ev.cat);
+    // printf("%s \n",pom.cat);
+    printf("Location:\n");
+    n=strlen(ev.loc);
+    for(i=0; i<n; i++)
+        if(ev.loc[i]=='/')
+            printf(" ");
+        else
+            printf("%c",ev.loc[i]);
+    printf("\n");
+    printf("Time and Date:\n");
+    printf("%s ",ev.date);
+    printf("%s",ev.time);
+    printf("\n\n");
 }
 /*
 void add_event()
@@ -461,7 +502,8 @@ void add_event()
 
                     b--;
                 }
-                else strcpy(temp->id,pom);
+                else
+                    strcpy(temp->id,pom);
             }
         }
         while(b<0);
@@ -739,7 +781,7 @@ void change_event_details()
         printf("List of all events:\n\n");
         while(fscanf(fp1, "%s %s %s %s %s %s %s",pom.id, pom.name, pom.desc, pom.loc, pom.cat, pom.date, pom.time)!=EOF)
         {
-           write(pom);
+            write(pom);
             m++;
         }
         rewind(fp1);
@@ -1126,9 +1168,9 @@ void events_by_category()
     EVENT ev;
     int count=0;
     char cat_name[20], view_choice;
-    printf("Dogadjaji neke od kategorija [E] or all events?[A]\n");
+    printf("Do you want to see events of a certain category[C] or all events?[A]\n");
     scanf(" %c", &view_choice);
-    if(view_choice=='E')
+    if(view_choice=='C')
     {
         list_categories(fcat);
         printf("Choose a category!\n");
@@ -1339,7 +1381,7 @@ void view_todays_events()
     tm = localtime(&t);
     strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
     list_categories(fcat);
-    printf("Izaberite kategoriju!\n");
+    printf("Choose category!\n");
     scanf("%s", cat_name);
     printf("\n");
     if((fevent=fopen("Events.txt", "r"))!=0)
@@ -1349,33 +1391,33 @@ void view_todays_events()
             if(strcmp(str_date, ev.date)==0 && strcmp(cat_name, ev.cat)==0)
             {
                 count++;
-              write(ev);
+                write(ev);
                 printf("Do you want choose option comment?\n");
                 printf("YES[Y] or BACK[B]\n");
                 scanf(" %c",&guest_choice);
                 if(guest_choice=='Y')
 
+                {
+                    if((fevent=fopen("Events.txt", "r"))!=0)
                     {
-                         if((fevent=fopen("Events.txt", "r"))!=0)
-        {
-             while(a==0)
-            {
-                printf("\nPleas ID of the event !\n");
-                scanf("%s", id);
-                rewind(fevent);
-            while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                if(strcmp(str_date, ev.date)==0 && strcmp(cat_name, ev.cat)==0 && (strcmp(id,ev.id)==0))
-                    {
-                        write(ev);
-                        a++;
+                        while(a==0)
+                        {
+                            printf("\nPleas write ID of the event !\n");
+                            scanf("%s", id);
+                            rewind(fevent);
+                            while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                                if(strcmp(str_date, ev.date)==0 && strcmp(cat_name, ev.cat)==0 && (strcmp(id,ev.id)==0))
+                                {
+                                    write(ev);
+                                    a++;
+                                }
+                        }
+                        fclose(fevent);
                     }
-        }
-        fclose(fevent);
-    }
-    char dat[]={"_FAJL.txt"},*ime=0;
-            ime=strcat(id,dat);
-            comment(ime);
-                    }
+                    char dat[]= {"_FAJL.txt"},*ime=0;
+                    ime=strcat(id,dat);
+                    comment(ime);
+                }
 
             }
         if(count==0)
@@ -1396,7 +1438,7 @@ void view_past_events()
     t=time(NULL);
     tm = localtime(&t);
     list_categories(fcat);
-    printf("Izaberite kategoriju!\n");
+    printf("Choose category!\n");
     scanf("%s", cat_name);
     printf("\n");
     strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
@@ -1406,37 +1448,37 @@ void view_past_events()
             if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0)
             {
                 count++;
-               write(ev);
+                write(ev);
             }
-                  if(count==0)
+        if(count==0)
             printf("\nThere is no past events!\n\n");
     }
     fclose(fevent);
 
-                printf("Do you want choose option comment?\n");
-                printf("YES[Y] or BACK[B]\n");
-                scanf(" %c",&guest_choice);
-                if(guest_choice=='Y')
+    printf("Do you want choose option comment?\n");
+    printf("YES[Y] or BACK[B]\n");
+    scanf(" %c",&guest_choice);
+    if(guest_choice=='Y')
+    {
+        if((fevent=fopen("Events.txt", "r"))!=0)
+            while(a==0)
+            {
+                printf("\nPleas write ID of the event !\n");
+                scanf("%s", id);
+                rewind(fevent);
+                while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                    if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id,ev.id)==0))
                     {
-                         if((fevent=fopen("Events.txt", "r"))!=0)
-                    while(a==0)
-                    {
-                        printf("\nPleas ID of the event !\n");
-                        scanf("%s", id);
-                        rewind(fevent);
-                        while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                            if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id,ev.id)==0))
-                            {
-                                write(ev);
-                                a++;
-                            }
+                        write(ev);
+                        a++;
                     }
-                    fclose(fevent);
+            }
+        fclose(fevent);
 
-                char dat[]={"_FAJL.txt"},*ime=0;
-            ime=strcat(id,dat);
-            comment(ime);
-                    }
+        char dat[]= {"_FAJL.txt"},*ime=0;
+        ime=strcat(id,dat);
+        comment(ime);
+    }
 
 }
 
@@ -1451,7 +1493,7 @@ void view_future_events()
     t=time(NULL);
     tm = localtime(&t);
     list_categories(fcat);
-    printf("Izaberite kategoriju!\n");
+    printf("Choose category!\n");
     scanf("%s", cat_name);
     printf("\n");
     strftime(str_date, sizeof(str_date), "%d/%m/%Y", tm);
@@ -1462,42 +1504,61 @@ void view_future_events()
             if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0)
             {
                 count++;
-               write(ev);
+                write(ev);
             }
-              if(count==0)
+        if(count==0)
             printf("\nThere is no future events!\n\n");
     }
     fclose(fevent);
-                printf("Do you want chose option comment?\n");
-                printf("YES[Y] or BACK[B]\n");
-                scanf(" %c",&guest_choice);
-                if(guest_choice=='Y')
-                {
+    printf("Do you want chose option comment?\n");
+    printf("YES[Y] or BACK[B]\n");
+    scanf(" %c",&guest_choice);
+    if(guest_choice=='Y')
+    {
 
-         int a=0;
+        int a=0;
         if((fevent=fopen("Events.txt", "r"))!=0)
         {
-             while(a==0)
+            while(a==0)
             {
-                printf("\nPleas ID of the event !\n");
+                printf("\nPleas write ID of the event !\n");
                 scanf("%s", id);
                 rewind(fevent);
-            while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0 && (strcmp(id,ev.id)==0))
+                while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                    if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0 && (strcmp(id,ev.id)==0))
                     {
                         write(ev);
                         a++;
                     }
+            }
+            fclose(fevent);
         }
-        fclose(fevent);
+        char dat[]= {"_FAJL.txt"},*ime=0;
+        ime=strcat(id,dat);
+        comment(ime);
     }
-    char dat[]={"_FAJL.txt"},*ime=0;
-            ime=strcat(id,dat);
-            comment(ime);
-                }
 
 }
 
+
+int choose_city()
+{
+    FILE *fp;
+    static int a=0;
+    char ev[31], temp[21];
+    printf("Choose city! ");
+    scanf("%s", temp);
+
+    if((fp=fopen("Cities.txt","r"))!=0)
+    {
+        while(fscanf(fp, "%s", ev)!=EOF)
+            if(strcmp(ev, temp)==0)
+                a=1;
+        fclose(fp);
+    }
+    return a;
+
+}
 
 
 
