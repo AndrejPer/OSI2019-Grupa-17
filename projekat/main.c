@@ -369,46 +369,46 @@ void print_category(char *catID)
 void write(EVENT pom)
 {
     int i,n;
-     printf("EVENT ID: %s\n", pom.id);
-            n=strlen(pom.name);
-            printf("EVENT NAME: ");
-            for(i=0; i<n; i++)
-                if(pom.name[i]=='/')
-                    printf(" ");
-                else
-                    printf("%c",pom.name[i]);
+    printf("EVENT ID: %s\n", pom.id);
+    n=strlen(pom.name);
+    printf("EVENT NAME: ");
+    for(i=0; i<n; i++)
+        if(pom.name[i]=='/')
             printf(" ");
+        else
+            printf("%c",pom.name[i]);
+    printf(" ");
 
-            printf("\n");
+    printf("\n");
 
-            n=strlen(pom.desc);
-            printf("EVENT DETAILS: ");
-            for(i=0; i<n; i++)
-                if(pom.desc[i]=='/')
-                    printf(" ");
-                else
-                    printf("%c",pom.desc[i]);
+    n=strlen(pom.desc);
+    printf("EVENT DETAILS: ");
+    for(i=0; i<n; i++)
+        if(pom.desc[i]=='/')
             printf(" ");
-            printf("\n");
-            printf("EVENT CATEGORY: ");
-            printf("%s\n",pom.cat);
+        else
+            printf("%c",pom.desc[i]);
+    printf(" ");
+    printf("\n");
+    printf("EVENT CATEGORY: ");
+    printf("%s\n",pom.cat);
 //            print_category(pom.cat);
-            n=strlen(pom.loc);
-            printf("EVENT LOCATION: ");
-            for(i=0; i<n; i++)
-                if(pom.loc[i]=='/')
-                    printf(" ");
-                else
-                    printf("%c",pom.loc[i]);
+    n=strlen(pom.loc);
+    printf("EVENT LOCATION: ");
+    for(i=0; i<n; i++)
+        if(pom.loc[i]=='/')
             printf(" ");
-            printf("\n");
-            printf("EVENT DATE: ");
-            printf("%s ",pom.date);
-            printf("\n");
-            printf("EVENT TIME: ");
-            printf("%s",pom.time);
-            printf("\n");
-            printf("\n");
+        else
+            printf("%c",pom.loc[i]);
+    printf(" ");
+    printf("\n");
+    printf("EVENT DATE: ");
+    printf("%s ",pom.date);
+    printf("\n");
+    printf("EVENT TIME: ");
+    printf("%s",pom.time);
+    printf("\n");
+    printf("\n");
 }
 /*
 void add_event()
@@ -595,9 +595,9 @@ void add_event()
     printf("\nList of events after adding:\n\n");
     if((fp1=fopen("Events.txt","r"))!=0)
     {
-                    while(fscanf(fp1, " %s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                    write(ev);
-                    fclose(fp1);
+        while(fscanf(fp1, " %s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+            write(ev);
+        fclose(fp1);
     }
     free(temp);
 }
@@ -681,12 +681,12 @@ void delete_event()
                 rename("Replica.txt", "Events.txt");
 
                 printf("\nList of events after deletin:\n\n");
-                 if((fp1=fopen("Events.txt","r"))!=0)
-    {
+                if((fp1=fopen("Events.txt","r"))!=0)
+                {
                     while(fscanf(fp1, " %s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                    write(ev);
+                        write(ev);
                     fclose(fp1);
-    }
+                }
             }
             else
             {
@@ -926,12 +926,12 @@ void change_event_details()
                 rename("Change.txt", "Events.txt");
 
                 printf("\nList of events :\n\n");
-                 if((fp1=fopen("Events.txt","r"))!=0)
-    {
+                if((fp1=fopen("Events.txt","r"))!=0)
+                {
                     while(fscanf(fp1, " %s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                    write(ev);
+                        write(ev);
                     fclose(fp1);
-    }
+                }
             }
             else
             {
@@ -1336,9 +1336,9 @@ void add_category()
 */
 void add_category()
 {
-    char response, cat_name[15] = {0},pom[30]={0};
+    char response, cat_name[15] = {0},pom[30]= {0};
     int b=0;
-    char temp[30]={0};
+    char temp[30]= {0};
     FILE *fcat = fopen("Categories.txt", "a+");
     printf("\nHere is the current list of categories:\n");
     list_categories(fcat);
@@ -1348,18 +1348,20 @@ void add_category()
         scanf(" %c", &response);
         if(response == 'Y')
         {
-          do{
+            do
+            {
                 rewind(fcat);
 
                 b=0;
-                    printf("Please type the name of the category: ");
-            scanf(" %s",cat_name);
+                printf("Please type the name of the category: ");
+                scanf(" %s",cat_name);
                 while(fscanf(fcat,"%s",pom)!=EOF)
-                if(strcmp(pom,cat_name)==0)
-                b--;
-                else strcpy(temp,cat_name);
-          }
-          while(b<0);
+                    if(strcmp(pom,cat_name)==0)
+                        b--;
+                    else
+                        strcpy(temp,cat_name);
+            }
+            while(b<0);
             fprintf(fcat, "%s \n", temp);
 
         }
@@ -1632,7 +1634,6 @@ void comment(char *fajl)
     rename("Novi.txt", fajl);
 }
 
-
 void view_todays_events()
 {
     FILE *fevent,*fcat=0;
@@ -1661,37 +1662,39 @@ void view_todays_events()
                 {
                     count++;
                     write(ev);
-                    printf("Do you want choose option comment?\n");
-                    printf("YES[Y] or BACK[B]\n");
-                    scanf(" %c",&guest_choice);
-                    if(guest_choice=='Y')
-                    {
-                        if((fevent=fopen("Events.txt", "r"))!=0)
-                            while(a==0)
-                            {
-                                printf("\nPleas write ID of the event !\n");
-                                scanf("%s", id);
-                                rewind(fevent);
-                                while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                                    if(strcmp(str_date, ev.date)==0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id, ev.id)==0))
-                                    {
-                                        write(ev);
-                                        a++;
-                                    }
-                            }
-                        fclose(fevent);
-
-                        char dat[]= {"_FAJL.txt"},*ime=0;
-                        ime=strcat(id,dat);
-                        comment(ime);
-                    }
-                    else if(guest_choice=='B')
-                        break;
                 }
             if(count==0)
                 printf("\nThere is no todays events!\n\n");
         }
         fclose(fevent);
+        if(count)
+        {
+            printf("Do you want choose option comment?\n");
+            printf("YES[Y] or BACK[B]\n");
+            scanf(" %c",&guest_choice);
+            if(guest_choice=='Y')
+            {
+                if((fevent=fopen("Events.txt", "r"))!=0)
+                    while(a==0)
+                    {
+                        printf("\nPleas write ID of the event !\n");
+                        scanf("%s", id);
+                        rewind(fevent);
+                        while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                            if(strcmp(str_date, ev.date)==0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id, ev.id)==0))
+                            {
+                                write(ev);
+                                a++;
+                            }
+                    }
+                fclose(fevent);
+
+                char dat[]= {"_FAJL.txt"},*ime=0;
+                ime=strcat(id,dat);
+                comment(ime);
+            }
+        }
+
     }
     else if(guest_choice=='A')
     {
@@ -1703,39 +1706,40 @@ void view_todays_events()
                 {
                     count++;
                     write(ev);
-                    printf("Do you want choose option comment?\n");
-                    printf("YES[Y] or BACK[B]\n");
-                    scanf(" %c",&guest_choice);
-                    if(guest_choice=='Y')
-                    {
-                        if((fevent=fopen("Events.txt", "r"))!=0)
-                            while(a==0)
-                            {
-                                printf("\nPleas write ID of the event !\n");
-                                scanf("%s", id);
-                                rewind(fevent);
-                                while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                                    if(strcmp(str_date, ev.date)==0 && (strcmp(id,ev.id)==0))
-                                    {
-                                        write(ev);
-                                        a++;
-                                    }
-                            }
-                        fclose(fevent);
-
-                        char dat[]= {"_FAJL.txt"},*ime=0;
-                        ime=strcat(id,dat);
-                        comment(ime);
-                    }
-                    else if(guest_choice=='B')
-                        break;
                 }
             if(count==0)
                 printf("\nThere is no todays events!\n\n");
         }
         fclose(fevent);
+        if(count)
+        {
 
+            printf("Do you want choose option comment?\n");
+            printf("YES[Y] or BACK[B]\n");
+            scanf(" %c",&guest_choice);
+            if(guest_choice=='Y')
+            {
+                if((fevent=fopen("Events.txt", "r"))!=0)
+                    while(a==0)
+                    {
+                        printf("\nPleas write ID of the event !\n");
+                        scanf("%s", id);
+                        rewind(fevent);
+                        while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                            if(strcmp(str_date, ev.date)==0 && (strcmp(id,ev.id)==0))
+                            {
+                                write(ev);
+                                a++;
+                            }
+                    }
+                fclose(fevent);
 
+                char dat[]= {"_FAJL.txt"},*ime=0;
+                ime=strcat(id,dat);
+                comment(ime);
+            }
+
+        }
 
     }
 
@@ -1772,38 +1776,40 @@ void view_past_events()
                 {
                     count++;
                     write(ev);
-                     printf("Do you want choose option comment?\n");
-        printf("YES[Y] or BACK[B]\n");
-        scanf(" %c",&guest_choice);
-        if(guest_choice=='Y')
-        {
-            if((fevent=fopen("Events.txt", "r"))!=0)
-                while(a==0)
-                {
-                    printf("\nPleas write ID of the event !\n");
-                    scanf("%s", id);
-                    rewind(fevent);
-                    while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                        if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id,ev.id)==0))
-                        {
-                            write(ev);
-                            a++;
-                        }
-                }
-            fclose(fevent);
-
-            char dat[]= {"_FAJL.txt"},*ime=0;
-            ime=strcat(id,dat);
-            comment(ime);
-        }
-        else if(guest_choice=='B') break;
                 }
             if(count==0)
+
                 printf("\nThere is no past events!\n\n");
         }
         fclose(fevent);
+        if(count)
+        {
+            printf("Do you want choose option comment?\n");
+            printf("YES[Y] or BACK[B]\n");
+            scanf(" %c",&guest_choice);
+            if(guest_choice=='Y')
+            {
+                if((fevent=fopen("Events.txt", "r"))!=0)
+                    while(a==0)
+                    {
+                        printf("\nPleas write ID of the event !\n");
+                        scanf("%s", id);
+                        rewind(fevent);
+                        while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                            if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id,ev.id)==0))
+                            {
+                                write(ev);
+                                a++;
+                            }
+                    }
+                fclose(fevent);
 
+                char dat[]= {"_FAJL.txt"},*ime=0;
+                ime=strcat(id,dat);
+                comment(ime);
+            }
 
+        }
     }
     else if(guest_choice=='A')
     {
@@ -1815,49 +1821,49 @@ void view_past_events()
                 {
                     count++;
                     write(ev);
-                     printf("Do you want choose option comment?\n");
-        printf("YES[Y] or BACK[B]\n");
-        scanf(" %c",&guest_choice);
-        if(guest_choice=='Y')
-        {
-            if((fevent=fopen("Events.txt", "r"))!=0)
-                while(a==0)
-                {
-                    printf("\nPleas write ID of the event !\n");
-                    scanf("%s", id);
-                    rewind(fevent);
-                    while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                        if(strcmp(str_date, ev.date)>0 && (strcmp(id,ev.id)==0))
-                        {
-                            write(ev);
-                            a++;
-                        }
-                }
-            fclose(fevent);
-
-            char dat[]= {"_FAJL.txt"},*ime=0;
-            ime=strcat(id,dat);
-            comment(ime);
-        }
-        else if(guest_choice=='B') break;
                 }
             if(count==0)
                 printf("\nThere is no past events!\n\n");
         }
         fclose(fevent);
+        if(count)
+        {
+            printf("Do you want choose option comment?\n");
+            printf("YES[Y] or BACK[B]\n");
+            scanf(" %c",&guest_choice);
+            if(guest_choice=='Y')
+            {
+                if((fevent=fopen("Events.txt", "r"))!=0)
+                    while(a==0)
+                    {
+                        printf("\nPleas write ID of the event !\n");
+                        scanf("%s", id);
+                        rewind(fevent);
+                        while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                            if(strcmp(str_date, ev.date)>0 && (strcmp(id,ev.id)==0))
+                            {
+                                write(ev);
+                                a++;
+                            }
+                    }
+                fclose(fevent);
 
+                char dat[]= {"_FAJL.txt"},*ime=0;
+                ime=strcat(id,dat);
+                comment(ime);
+            }
+        }
 
     }
 
-
-
 }
+
 
 void view_future_events()
 {
     FILE *fevent,*fcat=0;
     EVENT ev;
-    int count=0, a=0;
+    int count=0;
     struct tm *tm;
     time_t t;
     char str_date[100], cat_name[20], guest_choice,id[6];
@@ -1880,39 +1886,38 @@ void view_future_events()
                 {
                     count++;
                     write(ev);
-                    printf("Do you want choose option comment?\n");
-                    printf("YES[Y] or BACK[B]\n");
-                    scanf(" %c",&guest_choice);
-                    if(guest_choice=='Y')
-                    {
-                        if((fevent=fopen("Events.txt", "r"))!=0)
-                            while(a==0)
-                            {
-                                printf("\nPleas write ID of the event !\n");
-                                scanf("%s", id);
-                                rewind(fevent);
-                                while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                                    if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id,ev.id)==0))
-                                    {
-                                        write(ev);
-                                        a++;
-                                    }
-                            }
-                        fclose(fevent);
-
-                        char dat[]= {"_FAJL.txt"},*ime=0;
-                        ime=strcat(id,dat);
-                        comment(ime);
-                    }
-                    else if (guest_choice=='B')
-                        break;
                 }
+            if(count==0)
+                printf("\nThere is no future events!\n\n");
         }
-        if(count==0)
-            printf("\nThere is no future events!\n\n");
-
         fclose(fevent);
+        printf("Do you want chose option comment?\n");
+        printf("YES[Y] or BACK[B]\n");
+        scanf(" %c",&guest_choice);
+        if(guest_choice=='Y')
+        {
 
+            int a=0;
+            if((fevent=fopen("Events.txt", "r"))!=0)
+            {
+                while(a==0)
+                {
+                    printf("\nPleas write ID of the event !\n");
+                    scanf("%s", id);
+                    rewind(fevent);
+                    while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                        if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0 && (strcmp(id,ev.id)==0))
+                        {
+                            write(ev);
+                            a++;
+                        }
+                }
+                fclose(fevent);
+            }
+            char dat[]= {"_FAJL.txt"},*ime=0;
+            ime=strcat(id,dat);
+            comment(ime);
+        }
     }
 
     else  if(guest_choice=='A')
@@ -1926,46 +1931,47 @@ void view_future_events()
                 {
                     count++;
                     write(ev);
-                    printf("Do you want chose option comment?\n");
-                    printf("YES[Y] or BACK[B]\n");
-                    scanf(" %c",&guest_choice);
-                    if(guest_choice=='Y')
-                    {
-
-                        int a=0;
-                        if((fevent=fopen("Events.txt", "r"))!=0)
-                        {
-                            while(a==0)
-                            {
-                                printf("\nPleas write ID of the event !\n");
-                                scanf("%s", id);
-                                rewind(fevent);
-                                while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                                    if(strcmp(str_date, ev.date)<0 && (strcmp(id,ev.id)==0))
-                                    {
-                                        write(ev);
-                                        a++;
-                                    }
-                            }
-                            fclose(fevent);
-                        }
-                        char dat[]= {"_FAJL.txt"},*ime=0;
-                        ime=strcat(id,dat);
-                        comment(ime);
-                    }
-                    else if(guest_choice=='B')
-                        break;
                 }
             if(count==0)
                 printf("\nThere is no future events!\n\n");
         }
         fclose(fevent);
+        if(count)
+        {
+            printf("Do you want chose option comment?\n");
+            printf("YES[Y] or BACK[B]\n");
+            scanf(" %c",&guest_choice);
+            if(guest_choice=='Y')
+            {
 
+                int a=0;
+                if((fevent=fopen("Events.txt", "r"))!=0)
+                {
+                    while(a==0)
+                    {
+                        printf("\nPleas write ID of the event !\n");
+                        scanf("%s", id);
+                        rewind(fevent);
+                        while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                            if(strcmp(str_date, ev.date)<0 && (strcmp(id,ev.id)==0))
+                            {
+                                write(ev);
+                                a++;
+                            }
+                    }
+                    fclose(fevent);
+                }
+                char dat[]= {"_FAJL.txt"},*ime=0;
+                ime=strcat(id,dat);
+                comment(ime);
+            }
+        }
     }
 
 
-
 }
+
+
 int choose_city()
 {
     FILE *fp;
