@@ -185,6 +185,7 @@ int main()
 
     return 0;
 }
+
 int admin_login()
 {
     FILE *facc = fopen("Accounts.txt", "r");
@@ -1889,8 +1890,9 @@ void view_future_events()
                 }
             if(count==0)
                 printf("\nThere is no future events!\n\n");
-        }
+
         fclose(fevent);
+        if(count){
         printf("Do you want chose option comment?\n");
         printf("YES[Y] or BACK[B]\n");
         scanf(" %c",&guest_choice);
@@ -1918,6 +1920,7 @@ void view_future_events()
             ime=strcat(id,dat);
             comment(ime);
         }
+    }
     }
 
     else  if(guest_choice=='A')
@@ -1969,6 +1972,7 @@ void view_future_events()
     }
 
 
+}
 }
 
 
