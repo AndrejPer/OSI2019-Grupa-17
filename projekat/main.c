@@ -202,17 +202,19 @@ int main()
 
     return 0;
 }
-
 int admin_login()
 {
     FILE *facc = fopen("Accounts.txt", "r");
     //this is the file where the login data is stored
     char usern[30], pass[30], ch;
     //string for collecting username and password
-    int  attempts=3, a=0, i=0;
+    int  attempts=3, a=0;
+
 
     do
     {
+        int i=0;
+        a=0;
         printf("Username: ");
         scanf(" %s", usern);
         printf("Password: ");
@@ -220,7 +222,7 @@ int admin_login()
         {
             if(ch==ENTER || ch==TAB)
             {
-                pass[i]=0;
+                pass[i]='\0';
                 break;
             }
             else if(ch==BKSP)
@@ -233,15 +235,16 @@ int admin_login()
             {
                 pass[i++] = ch;
                 printf("*");
-                pass[i]=0;
+
+                pass[i]='\0';
             }
         }
-        //printf("Password: ");
-        //scanf(" %s", pass);
+
         a = checking_login(usern, pass, facc);
 
+
         if(!a)
-            printf("\nIncorrect username of password.\n");
+            printf("\nIncorrect username or password.\n");
 
         else
         {
@@ -260,14 +263,24 @@ int admin_login()
 int checking_login(char username[], char password[], FILE *fp)
 {
     rewind(fp);
+    static int temp=0;
     char temp_username[20],  temp_password[20];
     while (fscanf(fp, "%s %s",temp_username, temp_password )!=EOF)
     {
         if(strcmp(username,temp_username) == 0 && strcmp(password, temp_password) == 0)
-            return 1;
+        {
+            temp=1;
+            printf("%d\n", temp);
+            break;
+
+        }
+        else temp=0;
     }
-    return 0;
+        return temp;
+
 }
+/*
+
 /*
 void view_events()
 {
