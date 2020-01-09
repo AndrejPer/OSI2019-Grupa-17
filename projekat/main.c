@@ -63,7 +63,7 @@ int main()
         do
         {
             printf("\nHow are you logging in? (type 0 to exit)\n");
-            printf("Admin [A] or Guest [G]: \n");
+            printf("Administrator user access [A] or  Guest user access [G]: \n");
             scanf(" %c", &account);
             //printf("%c", account);
 
@@ -1283,7 +1283,7 @@ void add_category()
     while(response != 'N');
 }
 */
-
+/*
 void add_category()
 {
     char response, cat_name[15] = {0};
@@ -1312,8 +1312,46 @@ void add_category()
     while(response != 'N');
     fclose(fcat);
 }
+*/
+void add_category()
+{
+    char response, cat_name[15] = {0},pom[30]={0};
+    int b=0;
+    char temp[30]={0};
+    FILE *fcat = fopen("Categories.txt", "a+");
+    printf("\nHere is the current list of categories:\n");
+    list_categories(fcat);
+    do
+    {
+        printf("\nAre you sure you want add another category [Y] or [N]:\n");
+        scanf(" %c", &response);
+        if(response == 'Y')
+        {
+          do{
+                rewind(fcat);
 
+                b=0;
+                    printf("Please type the name of the category: ");
+            scanf(" %s",cat_name);
+                while(fscanf(fcat,"%s",pom)!=EOF)
+                if(strcmp(pom,cat_name)==0)
+                b--;
+                else strcpy(temp,cat_name);
+          }
+          while(b<0);
+            fprintf(fcat, "%s \n", temp);
 
+        }
+
+        else if (response != 'N')
+        {
+            printf("Unknown commande!");
+
+        }
+    }
+    while(response != 'N');
+    fclose(fcat);
+}
 
 void guest_view_events(int flag)
 {
