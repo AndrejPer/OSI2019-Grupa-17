@@ -1429,6 +1429,7 @@ void events_by_category()
                 printf("\nThere is no events with that category!\n\n");
         }
         fclose(fevent);
+        if(count){
         printf("Do you want choose option comment?\n");
         printf("YES[Y] or BACK[B]\n");
         scanf(" %c",&guest_choice);
@@ -1452,6 +1453,7 @@ void events_by_category()
             char dat[]= {"_FAJL.txt"},*ime=0;
             ime=strcat(id,dat);
             comment(ime);
+        }
         }
     }
     if(view_choice=='A')
