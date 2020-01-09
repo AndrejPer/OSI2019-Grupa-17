@@ -63,7 +63,7 @@ int main()
         do
         {
             printf("\nHow are you logging in? (type 0 to exit)\n");
-            printf("Admin [A] or Guest [G]: \n");
+            printf("Administrator user access  [A] or  Guest user access  [G]: \n");
             scanf(" %c", &account);
             //printf("%c", account);
 
@@ -132,7 +132,7 @@ int main()
                         else if(admin_choice != 'B')
                         {
                             printf("Unknown option!");
-                            //getchar();
+                            getchar();
                         }
 
                     }
@@ -182,7 +182,7 @@ int main()
                     else if(guest_choice != 'F')
                     {
                         printf("Unknown option!\n");
-                        //getchar();
+                        getchar();
                     }
 
                 }
