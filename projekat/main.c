@@ -42,7 +42,7 @@ void view_events();
 void guest_view_events(int);
 void view_future_events();
 void view_past_events();
-void iview_todays_events();
+void view_todays_events();
 void events_by_category();
 void quiz();
 void view_event_details();
@@ -1275,7 +1275,8 @@ void delete_category()
         printf("List of all categories:\n\n");
         while(fscanf(fp1, "%s",categ)!=EOF)
         {
-            printf("%s\n",categ);
+            printf("\t%s [%s] \n", categ,categ);
+           // printf("%s\n",categ);
             m++;
         }
         rewind(fp1);
@@ -1436,7 +1437,7 @@ void list_categories(FILE* fcat)
     if((fcat=fopen("Categories.txt", "r"))!=0)
     {
         while(fscanf(fcat, "%s", cat_name)!=EOF)
-            printf("\t%s [%s] \n", cat_name);
+            printf("\t%s [%s] \n", cat_name,cat_name);
         fclose(fcat);
     }
 }
