@@ -559,12 +559,12 @@ void add_event()
         {
             rewind(fp3);
 
-            printf("Category(up to 6 characters):\n");
+            printf("Category:\n");
             scanf("%s",cat2);
             while((fscanf(fp3,"%s",categ)!=EOF) )
             {
 
-                if(strcmp(categ,cat2)==0)
+                if(strcasecmp(categ,cat2)==0)
                 {
                     strcpy(temp->cat,cat2);
                     a++;
@@ -963,7 +963,7 @@ void sort_newest_date()
         for (i = h; i < n; i++)
         {
             EVENT temp = arr[i];
-            for (j = i; j >= h && strcmp(arr[j - h].date, temp.date) < 0; j -= h)
+            for (j = i; j >= h && strcasecmp(arr[j - h].date, temp.date) < 0; j -= h)
                 arr[j] = arr[j - h];
             arr[j] = temp;
         }
@@ -1039,7 +1039,7 @@ void sort_by_alphabet()
         for (i = h; i < n; i++)
         {
             EVENT temp = arr[i];
-            for (j = i; j >= h && strcmp(arr[j - h].name, temp.name) > 0; j -= h)
+            for (j = i; j >= h && strcasecmp(arr[j - h].name, temp.name) > 0; j -= h)
                 arr[j] = arr[j - h];
             arr[j] = temp;
         }
@@ -1114,7 +1114,7 @@ void sort_oldest_date()
         for (i = h; i < n; i++)
         {
             EVENT temp = arr[i];
-            for (j = i; j >= h && strcmp(arr[j - h].date, temp.date) > 0; j -= h)
+            for (j = i; j >= h && strcasecmp(arr[j - h].date, temp.date) > 0; j -= h)
                 arr[j] = arr[j - h];
             arr[j] = temp;
         }
@@ -1250,7 +1250,7 @@ void delete_category()
         printf("\nPleas name the category you wish to delete!\n");
         scanf("%s", temp);
         while(fscanf(fp1, "%s",categ)!=EOF)
-            if(strcmp(categ,temp)==0)
+            if(strcasecmp(categ,temp)==0)
             {
                 if((fp2=fopen("Replica.txt", "w"))!=0)
                 {
@@ -1357,7 +1357,7 @@ void add_category()
                 printf("Please type the name of the category: ");
                 scanf(" %s",cat_name);
                 while(fscanf(fcat,"%s",pom)!=EOF)
-                    if(strcmp(pom,cat_name)==0)
+                    if(strcasecmp(pom,cat_name)==0)
                         b--;
                     else
                         strcpy(temp,cat_name);
@@ -1419,7 +1419,7 @@ void events_by_category()
         {
             while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
 
-                if(strcmp(cat_name, ev.cat) == 0)
+                if(strcasecmp(cat_name, ev.cat) == 0)
                 {
                     count++;
                     write(ev);
@@ -1517,7 +1517,7 @@ void quiz()
 
             printf("Answer: ");
             scanf(" %s", &quiz_answ);
-            if(strcmp(quiz_answ,temp.true_answ)==0)
+            if(strcasecmp(quiz_answ,temp.true_answ)==0)
             {
                 printf ("\nYour answer is true!\n");
                 count++;
@@ -1661,7 +1661,7 @@ void view_todays_events()
         if((fevent=fopen("Events.txt", "r"))!=0)
         {
             while(fscanf(fevent, "%s %s %s %s %s %s %s", ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                if(strcmp(str_date, ev.date)==0 && strcmp(ev.cat, cat_name)==0)
+                if(strcmp(str_date, ev.date)==0 && strcasecmp(ev.cat, cat_name)==0)
                 {
                     count++;
                     write(ev);
@@ -1684,7 +1684,7 @@ void view_todays_events()
                         scanf("%s", id);
                         rewind(fevent);
                         while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                            if(strcmp(str_date, ev.date)==0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id, ev.id)==0))
+                            if(strcmp(str_date, ev.date)==0 && strcasecmp(ev.cat, cat_name)==0&& (strcmp(id, ev.id)==0))
                             {
                                 write(ev);
                                 a++;
@@ -1695,6 +1695,7 @@ void view_todays_events()
                 char dat[]= {"_FAJL.txt"},*ime=0;
                 ime=strcat(id,dat);
                 comment(ime);
+
             }
         }
 
@@ -1775,7 +1776,7 @@ void view_past_events()
         if((fevent=fopen("Events.txt", "r"))!=0)
         {
             while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0)
+                if(strcmp(str_date, ev.date)>0 && strcasecmp(ev.cat, cat_name)==0)
                 {
                     count++;
                     write(ev);
@@ -1799,7 +1800,7 @@ void view_past_events()
                         scanf("%s", id);
                         rewind(fevent);
                         while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                            if(strcmp(str_date, ev.date)>0 && strcmp(ev.cat, cat_name)==0&& (strcmp(id,ev.id)==0))
+                            if(strcmp(str_date, ev.date)>0 && strcasecmp(ev.cat, cat_name)==0&& (strcmp(id,ev.id)==0))
                             {
                                 write(ev);
                                 a++;
@@ -1885,7 +1886,7 @@ void view_future_events()
         {
             while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
 
-                if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0)
+                if(strcmp(str_date, ev.date)<0 && strcasecmp(ev.cat, cat_name)==0)
                 {
                     count++;
                     write(ev);
@@ -1911,11 +1912,12 @@ void view_future_events()
                         scanf("%s", id);
                         rewind(fevent);
                         while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                            if(strcmp(str_date, ev.date)<0 && strcmp(ev.cat, cat_name)==0 && (strcmp(id,ev.id)==0))
+                            if(strcmp(str_date, ev.date)<0 && strcasecmp(ev.cat, cat_name)==0 && (strcmp(id,ev.id)==0))
                             {
                                 write(ev);
                                 a++;
                             }
+
                     }
                 fclose(fevent);
 
@@ -1990,9 +1992,12 @@ int choose_city()
     if((fp=fopen("Cities.txt","r"))!=0)
     {
         while(fscanf(fp, "%s", ev)!=EOF)
-            if(strcmp(ev, temp)==0)
+        {
+            if(strcasecmp(temp, ev)==0)
                 a=1;
         fclose(fp);
+    }
+
     }
     return a;
 
