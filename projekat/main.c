@@ -58,13 +58,15 @@ int main()
     static char account=0;
     if(choose_city())
     {
-        printf("Welcome! Let's explore!\n");
+        printf("\nWelcome! Let's explore!\n");
 
         do
         {
-            printf("\nHow are you logging in? (type 0 to exit)\n");
-            printf("Administrator user access [A] or  Guest user access [G]: \n");
+            printf("\n________________________________________________________________________________________________________________________\n\n");
+            printf("How are you logging in? (type 0 to exit)\n\n");
+            printf("Administrator user access [A]\nGuest user access [G] \n\nType here: ");
             scanf(" %c", &account);
+            printf("\n\n========================================================================================================================\n\n");
             //printf("%c", account);
 
             if(account == 'A')
@@ -83,7 +85,8 @@ int main()
 
                     do
                     {
-                        printf("\nWhat would you like to do?\n");
+                        printf("\n________________________________________________________________________________________________________________________\n\n");
+                        printf("\nWhat would you like to do?\n\n");
                         printf("\tAdd event [A]\n");
                         printf("\tChange event details [C]\n");
                         printf("\tDelete event [D]\n");
@@ -228,12 +231,12 @@ int admin_login()
 
 
         if(!a)
-            printf("\nIncorrect username or password.\n");
+            printf("\n\nIncorrect username or password.\n\n");
 
         else
         {
-            printf("\nLoging in...\n\n");
-            printf("Welcome %s", usern);//username
+            printf("\n\nLogging in...\n\n");
+            printf("Welcome, %s !", usern);//username
         }
 
     }
@@ -316,7 +319,7 @@ void view_events()
         }
         fclose(fp);
         char sort_choice = 0;
-        printf("\nDo you want to view sorted events?\n");
+        printf("\nDo you want to view sorted events?\n\n");
         printf("\tSort by newest date [N]\n");
         printf("\tSort by oldest date [O]\n");
         printf("\tSort by alphabet [A]\n");
@@ -1008,7 +1011,7 @@ void sort_newest_date()
             printf(" ");
             printf("\n");
             printf("EVENT CATEGORY: ");
-            print_category(pom.cat);
+            printf("%s ", pom.cat);
             printf("\n");
             printf("EVENT DATE: ");
             printf("%s ",pom.date);
@@ -1429,31 +1432,32 @@ void events_by_category()
                 printf("\nThere is no events with that category!\n\n");
         }
         fclose(fevent);
-        if(count){
-        printf("Do you want choose option comment?\n");
-        printf("YES[Y] or BACK[B]\n");
-        scanf(" %c",&guest_choice);
-        if(guest_choice=='Y')
+        if(count)
         {
-            if((fevent=fopen("Events.txt", "r"))!=0)
-                while(a==0)
-                {
-                    printf("\nPleas write ID of the event !\n");
-                    scanf("%s", id);
-                    rewind(fevent);
-                    while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
-                        if((strcmp(id,ev.id)==0))
-                        {
-                            write(ev);
-                            a++;
-                        }
-                }
-            fclose(fevent);
+            printf("Do you want choose option comment?\n");
+            printf("YES[Y] or BACK[B]\n");
+            scanf(" %c",&guest_choice);
+            if(guest_choice=='Y')
+            {
+                if((fevent=fopen("Events.txt", "r"))!=0)
+                    while(a==0)
+                    {
+                        printf("\nPleas write ID of the event !\n");
+                        scanf("%s", id);
+                        rewind(fevent);
+                        while(fscanf(fevent, "%s %s %s %s %s %s %s",ev.id, ev.name, ev.desc, ev.loc, ev.cat, ev.date, ev.time)!=EOF)
+                            if((strcmp(id,ev.id)==0))
+                            {
+                                write(ev);
+                                a++;
+                            }
+                    }
+                fclose(fevent);
 
-            char dat[]= {"_FAJL.txt"},*ime=0;
-            ime=strcat(id,dat);
-            comment(ime);
-        }
+                char dat[]= {"_FAJL.txt"},*ime=0;
+                ime=strcat(id,dat);
+                comment(ime);
+            }
         }
     }
     if(view_choice=='A')
@@ -1986,7 +1990,7 @@ int choose_city()
     FILE *fp;
     static int a=0;
     char ev[31], temp[21];
-    printf("Choose city! ");
+    printf("Choose city!\n\nType here: ");
     scanf("%s", temp);
 
     if((fp=fopen("Cities.txt","r"))!=0)
@@ -1995,8 +1999,8 @@ int choose_city()
         {
             if(strcasecmp(temp, ev)==0)
                 a=1;
-        fclose(fp);
-    }
+            fclose(fp);
+        }
 
     }
     return a;
